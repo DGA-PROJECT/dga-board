@@ -1,0 +1,85 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - '.gitignore'
+      - '.dockerignore'
+      - 'README.md'
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    outputs:
+      IMAGE_TAG: ${{ steps.set-var.outputs.IMAGE_TAG }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set var
+        id: set-var
+        run: |
+          echo "ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
+          echo "ECR_REPOSITORY=test-spring-build" >> $GITHUB_ENV
+          echo "IMAGE_TAG=${{ github.run_number }}" >> $GITHUB_ENV
+          echo "GIT_EMAIL=winnertree@naver.com" >> $GITHUB_ENV
+          echo "GIT_NAME=winnertree" >> $GITHUB_ENV
+
+      
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+        
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v3
+
+      - name: chmod 
+        run: chmod +x ./gradlew  
+
+      - name: Execute Gradle build
+        run: ./gradlew build -x test
+
+      - name: Docker image Build
+        id: build-image
+        run: |
+          docker build -t ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} .
+
+      - name: Docker image Push
+        id: push-image
+        run: |
+          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+      
+      - name: Checkout Other Repository
+        uses: actions/checkout@v2
+        with:
+          repository: DGA-PROJECT/dga-deploy
+          ref: main  # branch
+          token: ${{ secrets.GH_TOKEN }}
+      - name: k8s manifest update
+        run: |
+          sed -i "s@ \
+          image: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:.*@ \
+          image:${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}@g" deployment.yml 
+
+      - name: Commit and Push
+        run: |
+          git config user.email "winnertree@naver.com"
+          git config user.name "winnertree"
+          git add deployment.yml
+          git commit -m "Update image tag"
+          git push origin main
