@@ -74,12 +74,12 @@ jobs:
         run: |
           sed -i "s@ \
           image: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:.*@ \
-          image:${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}@g" deployment.yml 
+          image:${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}@g" board/deployment.yml 
 
       - name: Commit and Push
         run: |
           git config user.email "winnertree@naver.com"
           git config user.name "winnertree"
-          git add deployment.yml
+          git add board/deployment.yml
           git commit -m "Update image tag"
           git push origin main
