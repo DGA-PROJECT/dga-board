@@ -1,9 +1,7 @@
 package avg.dga.board.entity;
 
-import avg.dga.user.entity.User;
 import jakarta.persistence.*;
 
-import lombok.Builder;
 import lombok.Getter;
 
 import lombok.Setter;
@@ -21,8 +19,8 @@ public class Board {
   private Long id;
 
   @JoinColumn(name = "user_id")
-  @ManyToOne
-  private User user ;
+  @ManyToOne(cascade = CascadeType.MERGE)
+  private DestiType.User user ;
 
   @Column(name="post_title")
   private String title;
@@ -67,8 +65,8 @@ public class Board {
   private LocalDateTime createdDate;
 
 
-  public Board(Long id, User user, String imgLink, String province, TravelType travelType, DestiType destiType, String travelTime,
-               Integer travelDuration, Integer revisitCount, Integer latitude,  Integer longitude, Integer likeCount, Boolean isBanned, LocalDateTime createdDate) {
+  public Board(Long id, DestiType.User user, String imgLink, String province, TravelType travelType, DestiType destiType, String travelTime,
+               Integer travelDuration, Integer revisitCount, Integer latitude, Integer longitude, Integer likeCount, Boolean isBanned, LocalDateTime createdDate) {
     this.id = id;
     this.user = user;
     this.imgLink = imgLink;
@@ -87,5 +85,8 @@ public class Board {
 
   public Board() {
 
+  }
+
+  public Board(long l, DestiType.User user, String number, String 강원도, TravelType travelType, DestiType destiType, String 네시간, int i, int i1, int i2, int i3, int i4, boolean b) {
   }
 }
