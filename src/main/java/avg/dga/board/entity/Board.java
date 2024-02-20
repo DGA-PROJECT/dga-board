@@ -19,7 +19,7 @@ public class Board extends Time{
   @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
   private User user ;
 
-  @Column(name="title",length = 100, nullable = false)
+  @Column(name="title", length = 100, nullable = false)
   private String title;
 
   @Column(columnDefinition = "TEXT", nullable = false)
@@ -71,10 +71,10 @@ public class Board extends Time{
     this.isBanned = isBanned;
   }
 
-  public Board(long ld, User user, String title, String area, TravelType travelType, DestiType destiType, String travelTime, int i2, int i3, int i4, boolean b) {
+  public Board(long ld, User user, String title, String content , String area, TravelType travelType, DestiType destiType, String longitude, String latitude) {
   }
 
   public Board(long id, String title, String content){
-    
+
   }
 }

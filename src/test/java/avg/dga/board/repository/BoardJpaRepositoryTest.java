@@ -29,14 +29,13 @@ class BoardJpaRepositoryTest {
   @Test
   @Transactional
   @Rollback(value = false)
-  public void testboard() throws Exception {
-      //given
+  public void testBoard() throws Exception {
+    //given
     User user = new User();
-    Board detachedBard = new Board(1L, user, "12321", "강원도", TravelType.KID, DestiType.MARKET, "네시간", 10, 10, 10, true);
-    Board mergedboard = (Board) em.merge(detachedBard);
-
+    Board board = new Board(1L, user, "강원도 갔다왓어요","강원도 갔다온 내용", "강원도", TravelType.KID, DestiType.MARKET,"34.123451","123.51231");
+    board.toString();
     //when
-
-
+    boardRepository.save(board);
+    //then
   }
 }
