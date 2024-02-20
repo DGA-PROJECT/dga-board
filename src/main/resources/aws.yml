@@ -7,3 +7,5 @@ cloud:
     stack:
       auto: false
     credentials:
+      accessKey: 1
+      secretKey: 2
