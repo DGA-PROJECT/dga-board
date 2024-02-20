@@ -23,7 +23,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -78,8 +78,8 @@ jobs:
 
       - name: Commit and Push
         run: |
-          git config user.email "winnertree@naver.com"
-          git config user.name "winnertree"
+          git config user.email ${{ env.GIT_EMAIL }}
+          git config user.name ${{ env.GIT_NAME }}
           git add board/deployment.yml
           git commit -m "Update image tag board/deployment.yml"
           git push origin main
