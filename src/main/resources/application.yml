@@ -9,12 +9,17 @@ spring:
     password: admin1
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
-        # 개발시 로그
         show-sql: true
         format_sql: true
+        use_sql_comments: true
+        # 개발시 로그
+        database: postgresql
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        open-in-view: true
+        generate-ddl: true
         jdbc:
           lob:
             non_contextual_creation: true
@@ -35,6 +40,10 @@ server:
       # cloud.aws.credentials.secretKey
 
 # 운영시 로그
-#logging:
-#  level:
-#    org.hibernate.sql: debug
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace

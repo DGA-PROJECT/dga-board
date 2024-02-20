@@ -19,7 +19,7 @@ bin/
 
 ### IntelliJ IDEA ###
 
-application.yaml
+application.yml
 aws.yml
 
 .idea

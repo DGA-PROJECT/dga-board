@@ -22,7 +22,7 @@ public class UploadController {
   private final AwsS3Service awsS3Service;
 
 
-  @RequestMapping(value = "post/uploadSummernoteImageFile", method = RequestMethod.POST)
+  @RequestMapping(value = "board/uploadSummernoteImageFile", method = RequestMethod.POST)
   @ResponseBody
   public ResponseEntity<ApiResponseMessage> upload(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest request, RedirectAttributes redirectAttributes) {
     // JSON 객체 생성

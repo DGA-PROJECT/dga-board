@@ -28,9 +28,13 @@ public class Board extends Time{
   @Column(name = "area", nullable = false)
   private String area;
 
+  @Column(name = "desti_name", nullable = false)
+  private String destiName;
+
   @Column(name = "travel_type", nullable = false)
   @Enumerated(value = EnumType.STRING)
   private TravelType travelType;
+
 
   @Column(name = "desti_type", nullable = false)
   @Enumerated(value = EnumType.STRING)
@@ -52,7 +56,7 @@ public class Board extends Time{
   private Boolean isBanned;
 
   @Builder
-  public Board(Long id, String title, String content, User user, String area, TravelType travelType, DestiType destiType,
+  public Board(Long id, String title, String content, User user, String area, String destiName, TravelType travelType, DestiType destiType,
                 Integer revisitCount, String latitude, String longitude, Integer likeCount, Boolean isBanned) {
     Assert.hasText(title, "title must not be empty");
     Assert.hasText(content, "content must not be empty");
@@ -62,6 +66,7 @@ public class Board extends Time{
     this.content = content;
     this.user = user;
     this.area = area;
+    this.destiName = destiName;
     this.travelType = travelType;
     this.destiType = destiType;
     this.revisitCount = revisitCount;
@@ -71,7 +76,7 @@ public class Board extends Time{
     this.isBanned = isBanned;
   }
 
-  public Board(long ld, User user, String title, String content , String area, TravelType travelType, DestiType destiType, String longitude, String latitude) {
+  public Board(long ld, User user, String title, String content , String area, String destiName, TravelType travelType, DestiType destiType, String longitude, String latitude) {
   }
 
   public Board(long id, String title, String content){

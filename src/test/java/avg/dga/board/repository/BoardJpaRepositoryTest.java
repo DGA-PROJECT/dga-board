@@ -32,7 +32,7 @@ class BoardJpaRepositoryTest {
   public void testBoard() throws Exception {
     //given
     User user = new User();
-    Board board = new Board(1L, user, "강원도 갔다왓어요","강원도 갔다온 내용", "강원도", TravelType.KID, DestiType.MARKET,"34.123451","123.51231");
+    Board board = new Board(1L, user, "강원도 갔다왓어요","강원도 갔다온 내용", "강원도", "안흥찐빵", TravelType.KID, DestiType.MARKET,"34.123451","123.51231");
     board.toString();
     //when
     boardRepository.save(board);

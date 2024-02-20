@@ -38,6 +38,7 @@ public class BoardRequest {
         .id(id)
         .title(title)
         .content(content)
+        .destiName(destiName)
         .user(getUser())
         .longitude(longitude)
         .latitude(latitude)

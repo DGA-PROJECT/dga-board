@@ -250,6 +250,8 @@
         return el;
     }
 
+
+
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
     function addMarker(position, idx, title) {
         var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
@@ -280,16 +282,38 @@
 
         // 마커에 클릭이벤트를 등록합니다
         kakao.maps.event.addListener(marker, 'click', function() {
-            // 마커 위에 인포윈도우를 표시합니다
+            // 마커
+            //
+            //
+            // 위에 인포윈도우를 표시합
+            var lat;
+            var lng;
+
             infowindow.open(map, marker);
-            document.getElementById('latitude').value = marker.getPosition().getLat();
-            document.getElementById('longitude').value = marker.getPosition().getLng();
+            lat = marker.getPosition().getLat();
+            lng = marker.getPosition().getLng();
+            document.getElementById('latitude').value = lat
+            document.getElementById('longitude').value = lng
+            getLocationName(lat, lng);
         });
         // 마커 클릭 이벤트 끝
         marker.setMap(map); // 지도 위에 마커를 표출합니다
         markers.push(marker);  // 배열에 생성된 마커를 추가합니다
 
         return marker;
+    }
+
+    // 해당 위치의 장소명을 가져오는 함수를 정의합니다.
+    function getLocationName(lat, Lng) {
+        var geocoder = new kakao.maps.services.Geocoder();
+        geocoder.coord2Address(lat, Lng, function(result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+                var placeName = result[0].address_name;
+                alert('선택한 위치의 장소명: ' + placeName);
+
+                document.getElementById('destiName').value = placeName;
+            }
+        });
     }
 
     // 지도 위에 표시되고 있는 마커를 모두 제거합니다
@@ -348,32 +372,33 @@
     }
 
 </script>
-<form class="form-horizontal" th:action="@{/post/write}" method="post">
+<form class="form-horizontal" th:action="@{/board/write}" method="post">
   <section>
+    목적지 : <input type="text" id="destiName" name="destiName"/><br>
     위도: <input type="text" id="latitude" name="latitude"><br>
     경도: <input type="text" id="longitude" name="longitude"><br>
   </section>
   <section>
     <strong> 테마(키즈/효도): </strong><div class="radio-group">
-    <input type="radio" id="kid" name="tType" value="KID">
+    <input type="radio" id="kid" name="travelType" value="KID" checked>
     <label for="kid">키즈</label>
   </div>
     <div class="radio-group">
-      <input type="radio" id="elder" name="tType" value="ELDER">
+      <input type="radio" id="elder" name="travelType" value="ELDER">
       <label for="elder">효도</label>
     </div><br/>
   </section>
   <section>
     <strong>장소타입 :</strong> <div class="radio-group">
-    <input type="radio" id="restaurant" name="dType" value="RESTAURANT">
+    <input type="radio" id="restaurant" name="destiType" value="RESTAURANT" checked>
     <label for="restaurant">식당</label>
   </div>
     <div class="radio-group">
-      <input type="radio" id="landmark" name="dType" value="LANDMARK">
+      <input type="radio" id="landmark" name="destiType" value="LANDMARK">
       <label for="landmark" >관광지</label>
     </div>
     <div class="radio-group">
-      <input type="radio" id="market" name="dType" value="MARKET">
+      <input type="radio" id="market" name="destiType" value="MARKET">
       <label for="market" >시장</label>
     </div>
   </section>
@@ -382,9 +407,11 @@
     <strong> 재방문 횟수 : </strong>
     <input type="number" id="revisit" name="revisit" readonly />
   </section>
-  <input type="text" class="title-input" placeholder="Enter title for your post" />
+  <!-- 테스트용 유저 생성 -->
+  <input type="number" id="userId" name="userId" hidden="hidden" value="1" />
+  <input type="text" id="title" name="title" class="title-input" placeholder="Enter title for your post" />
   <textarea id="summernote" name="content"></textarea>
-  <a th:href="@{/post/list}" class="btn btn-secondary">뒤로 가기</a>
+  <a th:href="@{/templates/board/list}" class="btn btn-secondary">뒤로 가기</a>
   <button type="input" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2
 px-4 rounded">글쓰기</button>
 </form>

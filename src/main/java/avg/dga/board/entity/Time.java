@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Getter
-@MappedSuperclass //클래스가 만들어지지 않는 기초 클래스라는 Annotation
+@MappedSuperclass // 테이블로 매핑하지 않고, 자식 Entity에게 매핑정보를 상속하기 위한 어노테이션
 @EntityListeners(value = {AuditingEntityListener.class}) //Entity 의 변화를 감지하는 리스너
 public abstract class Time {
 
