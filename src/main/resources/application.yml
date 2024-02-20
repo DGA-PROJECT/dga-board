@@ -1,11 +1,13 @@
 spring:
+  config:
+    import:
+      - classpath:/aws.yml
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: admin1
   jpa:
-
     hibernate:
       ddl-auto: create
     properties:
@@ -16,10 +18,23 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
 server:
   port: '8085'
 
+#cloud:
+#  aws:
+#    credentials:
+#      instanceProfile: true
+
+      # cloud.aws.credentials.accessKey
+      # cloud.aws.credentials.secretKey
+
 # 운영시 로그
-logging:
-  level:
-    org.hibernate.sql: debug
+#logging:
+#  level:
+#    org.hibernate.sql: debug

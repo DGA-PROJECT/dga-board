@@ -1,24 +1,38 @@
 package avg.dga.board.controller;
 
+
+
+import avg.dga.board.dto.BoardRequest;
 import avg.dga.board.service.BoardService;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
 
 @Controller
-@RequestMapping("/board")
+@RequiredArgsConstructor
+@RequestMapping("/post")
 public class BoardController {
 
-  @Autowired
-  BoardService boardService;
+  private BoardService boardService;
 
-  @RequestMapping("/write")
-  public String board(Model model) {
-    model.addAttribute("data","sdfasdfsdaf");
-    return "/board/write";
+  @GetMapping ("/write")
+  public String write() {
+    return "/post/write";
   }
+
+  @PostMapping ("/write")
+  public String write(BoardRequest boardRequest) {
+    System.out.println("boardRequest = " + boardRequest);
+    boardRequest.setId(1L);
+    System.out.println("Id = " + boardRequest.getId());
+
+    boardService.saveBoard(boardRequest);
+    return "redirect:/post/list";
+  }
+
 }
 
 

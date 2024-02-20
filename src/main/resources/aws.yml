@@ -1,0 +1,11 @@
+cloud:
+  aws:
+    s3:
+      bucket: daddygoimageupload #버킷이름
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+    credentials:
+      accessKey: AKIAWD3VJU6NDGGIJUAN
+      secretKey: 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

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Hello</title>
+  <title>아빠 또 기?</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -36,7 +36,20 @@
         border-color: #007bff;
         box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
     }
+    /* 라디오 박스 가로 정렬 */
+    .radio-group {
+        display: inline-block;
+    }
+    .radio-group label {
+        margin-right: 10px;
+    }
 
+    section {
+        margin : 10px 5px;
+    }
+    .page_wrap {
+
+    }
     /*  카카오 map api css */
     .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
     .map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
@@ -252,6 +265,27 @@
                 image: markerImage
             });
 
+
+
+        // 마커 선택시 띄울 메세지
+        // 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
+        var iwContent = '<div style="color: #3c763d; padding:7px;">여기 또갈까 ?</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+            iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+
+        // 인포윈도우를 생성합니다
+        var infowindow = new kakao.maps.InfoWindow({
+            content : iwContent,
+            removable : iwRemoveable
+        });
+
+        // 마커에 클릭이벤트를 등록합니다
+        kakao.maps.event.addListener(marker, 'click', function() {
+            // 마커 위에 인포윈도우를 표시합니다
+            infowindow.open(map, marker);
+            document.getElementById('latitude').value = marker.getPosition().getLat();
+            document.getElementById('longitude').value = marker.getPosition().getLng();
+        });
+        // 마커 클릭 이벤트 끝
         marker.setMap(map); // 지도 위에 마커를 표출합니다
         markers.push(marker);  // 배열에 생성된 마커를 추가합니다
 
@@ -312,82 +346,147 @@
             el.removeChild (el.lastChild);
         }
     }
+
 </script>
-<form method="post" >
+<form class="form-horizontal" th:action="@{/post/write}" method="post">
+  <section>
+    위도: <input type="text" id="latitude" name="latitude"><br>
+    경도: <input type="text" id="longitude" name="longitude"><br>
+  </section>
+  <section>
+    <strong> 테마(키즈/효도): </strong><div class="radio-group">
+    <input type="radio" id="kid" name="tType" value="KID">
+    <label for="kid">키즈</label>
+  </div>
+    <div class="radio-group">
+      <input type="radio" id="elder" name="tType" value="ELDER">
+      <label for="elder">효도</label>
+    </div><br/>
+  </section>
+  <section>
+    <strong>장소타입 :</strong> <div class="radio-group">
+    <input type="radio" id="restaurant" name="dType" value="RESTAURANT">
+    <label for="restaurant">식당</label>
+  </div>
+    <div class="radio-group">
+      <input type="radio" id="landmark" name="dType" value="LANDMARK">
+      <label for="landmark" >관광지</label>
+    </div>
+    <div class="radio-group">
+      <input type="radio" id="market" name="dType" value="MARKET">
+      <label for="market" >시장</label>
+    </div>
+  </section>
+  <!--hidden으로 들어가야하는 값들-->
+  <section>
+    <strong> 재방문 횟수 : </strong>
+    <input type="number" id="revisit" name="revisit" readonly />
+  </section>
   <input type="text" class="title-input" placeholder="Enter title for your post" />
   <textarea id="summernote" name="content"></textarea>
+  <a th:href="@{/post/list}" class="btn btn-secondary">뒤로 가기</a>
+  <button type="input" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2
+px-4 rounded">글쓰기</button>
 </form>
 <script>
-    $(document).ready(function() {
+$(document).ready(function() {
+
       $('#summernote').summernote({
-          codeviewFilter: false, // 코드 보기 필터 비활성화
-          codeviewIframeFilter: false, // 코드 보기 iframe 필터 비활성화
+      codeviewFilter: false, // 코드 보기 필터 비활성화
+      codeviewIframeFilter: false, // 코드 보기 iframe 필터 비활성화
 
-          height: 500, // 에디터 높이
-          minHeight: null, // 최소 높이
-          maxHeight: null, // 최대 높이
-          focus: true, // 에디터 로딩 후 포커스 설정
-          lang: 'ko-KR', // 언어 설정 (한국어)
-          placeholder: '최대3000자까지 쓸 수 있습니다'	,//placeholder 설정
-          toolbar: [
-              ['style', ['style']], // 글자 스타일 설정 옵션
-              ['fontsize', ['fontsize']], // 글꼴 크기 설정 옵션
-              ['font', ['bold', 'underline', 'clear']], // 글자 굵게, 밑줄, 포맷 제거 옵션
-              ['color', ['color']], // 글자 색상 설정 옵션
-              ['table', ['table']], // 테이블 삽입 옵션
-              ['para', ['ul', 'ol', 'paragraph']], // 문단 스타일, 순서 없는 목록, 순서 있는 목록 옵션
-              ['height', ['height']], // 에디터 높이 조절 옵션
-              ['insert', ['picture', 'link', 'video']], // 이미지 삽입, 링크 삽입, 동영상 삽입 옵션
-              ['view', ['codeview', 'fullscreen', 'help']], // 코드 보기, 전체 화면, 도움말 옵션
-          ],
+      height: 500, // 에디터 높이
+      minHeight: null, // 최소 높이
+      maxHeight: null, // 최대 높이
+      focus: true, // 에디터 로딩 후 포커스 설정
+      lang: 'ko-KR', // 언어 설정 (한국어)
 
-          fontSizes: [
-              '8', '9', '10', '11', '12', '14', '16', '18',
-              '20', '22', '24', '28', '30', '36', '50', '72',
-          ], // 글꼴 크기 옵션
+      toolbar: [
+          ['style', ['style']], // 글자 스타일 설정 옵션
+          ['fontsize', ['fontsize']], // 글꼴 크기 설정 옵션
+          ['font', ['bold', 'underline', 'clear']], // 글자 굵게, 밑줄, 포맷 제거 옵션
+          ['color', ['color']], // 글자 색상 설정 옵션
+          ['table', ['table']], // 테이블 삽입 옵션
+          ['para', ['ul', 'ol', 'paragraph']], // 문단 스타일, 순서 없는 목록, 순서 있는 목록 옵션
+          ['height', ['height']], // 에디터 높이 조절 옵션
+          ['insert', ['picture', 'link', 'video']], // 이미지 삽입, 링크 삽입, 동영상 삽입 옵션
+          ['view', ['codeview', 'fullscreen', 'help']], // 코드 보기, 전체 화면, 도움말 옵션
+      ],
 
-          styleTags: [
-              'p',  // 일반 문단 스타일 옵션
-              {
-                  title: 'Blockquote',
-                  tag: 'blockquote',
-                  className: 'blockquote',
-                  value: 'blockquote',
-              },  // 인용구 스타일 옵션
-              'pre',  // 코드 단락 스타일 옵션
-              {
-                  title: 'code_light',
-                  tag: 'pre',
-                  className: 'code_light',
-                  value: 'pre',
-              },  // 밝은 코드 스타일 옵션
-              {
-                  title: 'code_dark',
-                  tag: 'pre',
-                  className: 'code_dark',
-                  value: 'pre',
-              },  // 어두운 코드 스타일 옵션
-              'h1', 'h2', 'h3', 'h4', 'h5', 'h6',  // 제목 스타일 옵션
-          ],
-          // callbacks: {
-          //     onImageUpload: function (files, editor, welEditable) {
-          //         // 파일 업로드 (다중 업로드를 위해 반복문 사용)
-          //         for (var i = files.length - 1; i >= 0; i--) {
-          //             var fileName = files[i].name
-          //
-          //             // 이미지 alt 속성 삽일을 위한 설정
-          //             var caption = prompt('이미지 설명 :', fileName)
-          //             if (caption == '') {
-          //                 caption = '이미지'
-          //             }
-          //             uploadSummernoteImageFile(files[i], this, caption)
-          //         }
-          //     },
-          // },
-      });
-    });
+      fontSizes: [
+          '8', '9', '10', '11', '12', '14', '16', '18',
+          '20', '22', '24', '28', '30', '36', '50', '72',
+      ], // 글꼴 크기 옵션
+
+      styleTags: [
+          'p',  // 일반 문단 스타일 옵션
+          {
+              title: 'Blockquote',
+              tag: 'blockquote',
+              className: 'blockquote',
+              value: 'blockquote',
+          },  // 인용구 스타일 옵션
+          'pre',  // 코드 단락 스타일 옵션
+          {
+              title: 'code_light',
+              tag: 'pre',
+              className: 'code_light',
+              value: 'pre',
+          },  // 밝은 코드 스타일 옵션
+          {
+              title: 'code_dark',
+              tag: 'pre',
+              className: 'code_dark',
+              value: 'pre',
+          },  // 어두운 코드 스타일 옵션
+          'h1', 'h2', 'h3', 'h4', 'h5', 'h6',  // 제목 스타일 옵션
+      ],
+
+      callbacks: {
+          onImageUpload: function (files, editor, welEditable) {
+              // 파일 업로드 (다중 업로드를 위해 반복문 사용)
+              for (var i = files.length - 1; i >= 0; i--) {
+                  var fileName = files[i].name
+
+                  // 이미지 alt 속성 삽일을 위한 설정
+                  var caption = prompt('이미지 설명 :', fileName)
+                  if (caption == '') {
+                      caption = '이미지'
+                  }
+                  uploadSummernoteImageFile(files[i], this, caption)
+              }
+          },
+      },
+  })
+})
+
+// 이미지 업로드 함수 ajax 활용
+function uploadSummernoteImageFile(file, el, caption) {
+    data = new FormData()
+    data.append('file', file)
+    $.ajax({
+        data: data,
+        type: 'POST',
+        url: 'uploadSummernoteImageFile',
+        enctype: 'json',
+        contentType: false,
+        processData: false,
+        error: function (xhr, status, error) {
+            alert('파일 업로드 실패');
+        },
+        success: function (data) {
+            alert('파일 업로드 성공');
+
+
+            const imageUrl = data.message;
+            console.log(imageUrl);
+            // Insert image URL into Summernote
+            $('#summernote').summernote('insertImage', imageUrl);
+
+        },
+    })
+}
 </script>
-<button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2
-px-4 rounded">글쓰기</button>
+
 </body>
 </html>

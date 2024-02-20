@@ -25,14 +25,19 @@ repositories {
 }
 
 dependencies {
+    // aws S3 연동을 위한 dependencies
+    //aws s3 연동
+    implementation 'io.awspring.cloud:spring-cloud-aws-s3:3.0.2'
+
     // JPA
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     // use the versions from the platform
     implementation "org.hibernate.orm:hibernate-core"
     implementation "jakarta.transaction:jakarta.transaction-api"
-
     // RDB
     implementation 'org.postgresql:postgresql'
+    //JSON
+    implementation group: 'org.json', name: 'json', version: '20090211'
 
     // WEB && Template Engine
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
