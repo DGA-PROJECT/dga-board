@@ -44,10 +44,6 @@ jobs:
         with:
           distribution: adopt
           java-version: 17
-        env:
-          PSQL_HOST: ${{ secrets.PSQL_HOST }}
-          PSQL_USERNAME: ${{ secrets.PSQL_USERNAME }}
-          PSQL_PASSWORD: ${{ secrets.PSQL_PASSWORD }}
           
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v3
@@ -63,9 +59,9 @@ jobs:
         run: |
           docker build
             -f Dockerfile \
-            --build-arg PSQL_HOST=${{ secrets.PSQL_HOST }} \
-            --build-arg PSQL_USERNAME=${{ secrets.PSQL_USERNAME }} \
-            --build-arg PSQL_PASSWORD=${{ secrets.PSQL_PASSWORD }} \
+            --build-arg PSQL_HOST=${{ secrets.PSQL_HOST_1 }} \
+            --build-arg PSQL_USERNAME=${{ secrets.PSQL_USERNAME_1 }} \
+            --build-arg PSQL_PASSWORD=${{ secrets.PSQL_PASSWORD_1 }} \
             -t ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} .
 
       - name: Docker image Push
