@@ -44,7 +44,11 @@ jobs:
         with:
           distribution: adopt
           java-version: 17
-        
+        env:
+          PSQL_HOST: ${{ secrets.PSQL_HOST }}
+          PSQL_USERNAME: ${{ secrets.PSQL_USERNAME }}
+          PSQL_PASSWORD: ${{ secrets.PSQL_PASSWORD }}
+          
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v3
 
