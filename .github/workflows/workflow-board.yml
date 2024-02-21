@@ -57,7 +57,7 @@ jobs:
       - name: Docker image Build
         id: build-image
         run: |
-          docker build
+          docker build \
             -f Dockerfile \
             --build-arg PSQL_HOST=${{ secrets.PSQL_HOST }} \
             --build-arg PSQL_USERNAME=${{ secrets.PSQL_USERNAME }} \
