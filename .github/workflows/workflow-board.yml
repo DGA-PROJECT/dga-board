@@ -58,6 +58,7 @@ jobs:
         id: build-image
         run: |
           docker build
+            -f Dockerfile \
             --build-arg POSTGRE_USER=${{ secrets.PSQL_HOST }} \
             --build-arg POSTGRE_USER=${{ secrets.PSQL_USERNAME }} \
             --build-arg POSTGRE_USER=${{ secrets.PSQL_PASSWORD }} \
