@@ -59,9 +59,9 @@ jobs:
         run: |
           docker build
             -f Dockerfile \
-            --build-arg POSTGRE_USER=${{ secrets.PSQL_HOST }} \
-            --build-arg POSTGRE_USER=${{ secrets.PSQL_USERNAME }} \
-            --build-arg POSTGRE_USER=${{ secrets.PSQL_PASSWORD }} \
+            --build-arg PSQL_HOST=${{ secrets.PSQL_HOST }} \
+            --build-arg PSQL_USERNAME=${{ secrets.PSQL_USERNAME }} \
+            --build-arg PSQL_PASSWORD=${{ secrets.PSQL_PASSWORD }} \
             -t ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} .
 
       - name: Docker image Push
