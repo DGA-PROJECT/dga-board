@@ -6,9 +6,11 @@ import lombok.*;
 
 import org.springframework.util.Assert;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)  // 외부에서의 생성을 열어 둘 필요가 없을 때 / 보안적으로 권장된다.
+@NoArgsConstructor(access = AccessLevel.PUBLIC)  // 외부에서의 생성을 열어 둘 필요가 없을 때 PROTECT 가  / 보안적으로 권장된다.
 @Getter
-@Entity(name = "board")
+@Setter
+@Entity
+@Table(name = "board")
 public class Board extends Time{
 
   @Id @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -16,7 +18,7 @@ public class Board extends Time{
   private Long id;
 
   @JoinColumn(name = "user_id", nullable = false)
-  @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
+  @ManyToOne
   private User user ;
 
   @Column(name="title", length = 100, nullable = false)
@@ -35,6 +37,8 @@ public class Board extends Time{
   @Enumerated(value = EnumType.STRING)
   private TravelType travelType;
 
+  @Column(name = "like_count")
+  private Integer likeCount;
 
   @Column(name = "desti_type", nullable = false)
   @Enumerated(value = EnumType.STRING)
@@ -48,9 +52,6 @@ public class Board extends Time{
 
   @Column(name = "longitude")
   private String longitude;
-
-  @Column(name = "like_count")
-  private Integer likeCount;
 
   @Column(name = "is_banned")
   private Boolean isBanned;
