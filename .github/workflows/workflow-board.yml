@@ -62,6 +62,8 @@ jobs:
             --build-arg PSQL_HOST=${{ secrets.PSQL_HOST }} \
             --build-arg PSQL_USERNAME=${{ secrets.PSQL_USERNAME }} \
             --build-arg PSQL_PASSWORD=${{ secrets.PSQL_PASSWORD }} \
+            --build-arg BOARD_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY_ID }} \
+            --build-arg BOARD_SECRET_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
             -t ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} .
 
       - name: Docker image Push
