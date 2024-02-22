@@ -1,7 +1,7 @@
 spring:
-  config:
-    import:
-      - classpath:/aws.yml
+#  config:
+#    import:
+#      - classpath:/aws.yml
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://${PSQL_HOST}:5432/mydatabase
@@ -31,14 +31,6 @@ spring:
 server:
   port: '8085'
 
-#cloud:
-#  aws:
-#    credentials:
-#      instanceProfile: true
-
-      # cloud.aws.credentials.accessKey
-      # cloud.aws.credentials.secretKey
-
 # 운영시 로그
 logging:
   level:
@@ -47,3 +39,15 @@ logging:
         type:
           descriptor:
             sql: trace
+# AWS
+cloud:
+  aws:
+    s3:
+      bucket: daddygoimageupload #버킷이름
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+    credentials:
+      accessKey: ${BOARD_ACCESS_KEY}
+      secretKey: ${BOARD_SECRET_KEY}
