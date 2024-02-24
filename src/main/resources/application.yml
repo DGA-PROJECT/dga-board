@@ -1,7 +1,4 @@
 spring:
-#  config:
-#    import:
-#      - classpath:/aws.yml
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://${PSQL_HOST}:5432/mydatabase
@@ -9,7 +6,7 @@ spring:
     password: ${PSQL_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         show-sql: true

@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetUrlRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.S3Exception;
 
 import java.io.IOException;
 
@@ -23,9 +25,9 @@ public class AwsS3Service {
   @Value("${cloud.aws.s3.bucket}")
   private String bucketName;
 
-  public String uploadFile(MultipartFile multipartFile)  {
+  public String uploadFile(MultipartFile multipartFile) {
 
-    String fileName =  multipartFile.getOriginalFilename();
+    String fileName = multipartFile.getOriginalFilename();
 
     try {
       PutObjectRequest putObjectRequest = PutObjectRequest.builder()
@@ -35,11 +37,9 @@ public class AwsS3Service {
           .key(fileName)
           .build();
       RequestBody requestBody = RequestBody.fromBytes(multipartFile.getBytes());
-      System.out.println("===================================");
-      System.out.println("requestBody = " + requestBody);
       s3Client.putObject(putObjectRequest, requestBody);
     } catch (IOException e) {
-      log.error("cannot upload image",e);
+      log.error("cannot upload image", e);
       throw new RuntimeException(e);
     }
     GetUrlRequest getUrlRequest = GetUrlRequest.builder()
@@ -48,5 +48,19 @@ public class AwsS3Service {
         .build();
 
     return s3Client.utilities().getUrl(getUrlRequest).toString();
+  }
+
+  public void deleteFile(String fileName) {
+    try {
+      DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
+          .bucket(bucketName)
+          .key(fileName)
+          .build();
+      s3Client.deleteObject(deleteObjectRequest);
+      log.info("Deleted file with key: {}", fileName);
+    } catch (S3Exception e) {
+      log.error("Error deleting file from S3: {}", e.getMessage());
+      throw new RuntimeException(e);
+    }
   }
 }

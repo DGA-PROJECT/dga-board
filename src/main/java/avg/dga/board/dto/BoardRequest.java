@@ -1,9 +1,6 @@
 package avg.dga.board.dto;
 
-import avg.dga.board.entity.Board;
-import avg.dga.board.entity.DestiType;
-import avg.dga.board.entity.TravelType;
-import avg.dga.board.entity.User;
+import avg.dga.board.entity.*;
 import lombok.*;
 
 
@@ -18,6 +15,7 @@ public class BoardRequest {
   private String title;
   private String content;
   private User user;
+  private Area area;
 
   private Integer revisitCount;
   //일단 빼고 구성
@@ -38,8 +36,9 @@ public class BoardRequest {
         .id(id)
         .title(title)
         .content(content)
-        .destiName(destiName)
         .user(getUser())
+        .destiName(destiName)
+        .area(area)
         .longitude(longitude)
         .latitude(latitude)
         .destiType(destiType)
@@ -48,11 +47,13 @@ public class BoardRequest {
   }
 
   @Builder
-  public BoardRequest(Long id, String title, String content, Integer revisitCount, TravelType travelType, DestiType destiType, String destiName, String longitude, String latitude, String thumbnailImg,
+  public BoardRequest(Long id, String title,  String content, User user, Area area, Integer revisitCount, TravelType travelType, DestiType destiType, String destiName, String longitude, String latitude, String thumbnailImg,
                      LocalDateTime createdDate, LocalDateTime modifiedDate){
     this.id = id;
     this.title = title;
     this.content = content;
+    this.user = user;
+    this.area = area;
     this.revisitCount = revisitCount;
     this.travelType = travelType;
     this.destiType = destiType;

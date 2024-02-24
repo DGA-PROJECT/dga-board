@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -15,7 +17,10 @@ public class User {
   @Column(name = "user_id")
   private Long id;
 
-  @Column(name = "nick_name")
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+  private List<Board> board = new ArrayList<>();;
+
+  @Column(name = "nickname")
   private String nickName;
 
   private String email;

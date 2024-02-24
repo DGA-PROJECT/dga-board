@@ -27,22 +27,22 @@ public class Board extends Time{
   @Column(columnDefinition = "TEXT", nullable = false)
   private String content;
 
-  @Column(name = "area", nullable = false)
-  private String area;
+  @Column(name = "area")
+  private Area area;
 
-  @Column(name = "desti_name", nullable = false)
+  @Column(name = "desti_name")
   private String destiName;
 
-  @Column(name = "travel_type", nullable = false)
+  @Column(name = "travel_type")
   @Enumerated(value = EnumType.STRING)
   private TravelType travelType;
 
-  @Column(name = "like_count")
-  private Integer likeCount;
-
-  @Column(name = "desti_type", nullable = false)
+  @Column(name = "desti_type")
   @Enumerated(value = EnumType.STRING)
   private DestiType destiType;
+
+  @Column(name = "like_count")
+  private Integer likeCount;
 
   @Column(name = "revisit_count")
   private Integer revisitCount;
@@ -57,7 +57,7 @@ public class Board extends Time{
   private Boolean isBanned;
 
   @Builder
-  public Board(Long id, String title, String content, User user, String area, String destiName, TravelType travelType, DestiType destiType,
+  public Board(Long id, String title, String content, User user, Area area, String destiName, TravelType travelType, DestiType destiType,
                 Integer revisitCount, String latitude, String longitude, Integer likeCount, Boolean isBanned) {
     Assert.hasText(title, "title must not be empty");
     Assert.hasText(content, "content must not be empty");
@@ -77,10 +77,4 @@ public class Board extends Time{
     this.isBanned = isBanned;
   }
 
-  public Board(long ld, User user, String title, String content , String area, String destiName, TravelType travelType, DestiType destiType, String longitude, String latitude) {
-  }
-
-  public Board(long id, String title, String content){
-
-  }
 }
