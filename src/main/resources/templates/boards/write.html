@@ -504,7 +504,9 @@ $(document).ready(function() {
           onImageUpload: function (files, editor, welEditable) {
               // 파일 업로드 (다중 업로드를 위해 반복문 사용)
               for (var i = files.length - 1; i >= 0; i--) {
-                  var fileName = files[i].name
+
+                  var fileName = null;
+                  fileName = files[i].name;
 
                   // 이미지 alt 속성 삽일을 위한 설정
                   var caption = prompt('이미지 설명 :', fileName)
@@ -534,8 +536,6 @@ function uploadSummernoteImageFile(file, el, caption) {
         },
         success: function (data) {
             alert('파일 업로드 성공');
-
-
             const imageUrl = data.message;
             console.log(imageUrl);
             // Insert image URL into Summernote

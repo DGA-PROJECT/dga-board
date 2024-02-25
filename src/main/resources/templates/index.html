@@ -4,102 +4,93 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>여행 게시판</title>
-  <!-- 부트스트랩 또는 다른 CSS 프레임워크를 여기에 추가하세요 -->
   <style>
-      /* 전체 페이지 스타일 */
+      /* 기본 스타일 */
       body {
           font-family: Arial, sans-serif;
           margin: 0;
           padding: 0;
       }
 
+      /* 이미지 설정 */
+      img {
+          max-width: 100%;
+          height: auto;
+      }
+
       /* 헤더 스타일 */
       header {
-          background-color: #007bff;
+          background: linear-gradient(to right, #ff8c00, #ff0080, #8000ff);
           color: white;
           text-align: center;
           padding: 20px 0;
+          position: relative;
       }
 
       /* 네비게이션 스타일 */
       nav {
-          background-color: #f8f9fa;
-          padding: 10px 0;
+          background-color: #f8f9fa; /* 네비게이션의 배경색을 변경 */
+          text-align: center;
       }
 
       nav ul {
           list-style-type: none;
           margin: 0;
           padding: 0;
-          text-align: center;
+          display: flex; /* 옆으로 나란히 배치 */
+          justify-content: center; /* 가운데 정렬 */
+          font-size: 20px; /* 네비게이션 아이템의 크기를 20px로 설정 */
       }
 
       nav ul li {
-          display: inline;
-          margin-right: 20px;
+          margin: 0 10px; /* 각 네비게이션 아이템 간의 간격 설정 */
+          transition: transform 0.3s, color 0.3s; /* 호버 시 효과를 주기 위해 transition 속성 추가 */
+          background-color: #ffc107; /* 네비게이션 아이템의 배경색을 변경 */
+          border-radius: 5px; /* 네비게이션 아이템을 둥글게 만들기 */
       }
 
       nav ul li a {
           text-decoration: none;
-          color: #007bff;
+          color: #343a40; /* 텍스트 색상을 어두운 색상으로 설정 */
           font-weight: bold;
+          padding: 10px 20px; /* 네비게이션 아이템 내부 여백 설정 */
+          display: inline-block;
       }
 
-      nav ul li a:hover {
-          color: #0056b3;
+      /* 호버 시 효과 */
+      nav ul li:hover {
+          transform: scale(1.1); /* 호버 시 약간 스케일 업 */
+          background-color: #ffca28; /* 호버 시 네비게이션 아이템의 배경색 변경 */
       }
 
-      /* 메인 콘텐츠 스타일 */
-      main {
-          padding: 20px;
-      }
-
-      section {
-          margin-bottom: 20px;
-      }
-
-      /* 푸터 스타일 */
-      footer {
-          background-color: #343a40;
-          color: white;
-          text-align: center;
-          padding: 10px 0;
+      nav ul li:hover a {
+          color: #212529; /* 호버 시 텍스트 색상 변경 */
       }
 
   </style>
 </head>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <body>
 <header>
+  <img src="/assets/images/header-background.jpg" alt="여행 사진 배경 이미지">
   <h1>여행 게시판</h1>
-  <!-- 필요한 경우 로그인/회원가입 링크 등을 추가하세요 -->
+  <p>여행의 추억을 공유하고 소통하는 공간</p>
 </header>
 
 <nav>
-  <!-- 네비게이션 메뉴를 추가하세요 -->
   <ul>
     <li><a href="#">홈</a></li>
-    <li><a href="#">게시판</a></li>
-    <li><a href="/boards/write">글쓰기</a></li>
-    <!-- 필요에 따라 더 많은 메뉴를 추가하세요 -->
+    <li><a href="/boards/list">게시판</a></li>
+    <li><a href="/boards/write">여행 리뷰 작성</a></li>
   </ul>
 </nav>
 
 <main>
-  <!-- 여기에 여행 게시글 목록이 표시될 부분을 추가하세요 -->
-  <section>
-    <h2>최신 게시물</h2>
-    <!-- 최신 게시물 목록을 표시할 리스트를 추가하세요 -->
-    <ul>
-      <li>게시물 1</li>
-      <li>게시물 2</li>
-      <!-- 필요에 따라 더 많은 게시물을 추가하세요 -->
-    </ul>
-  </section>
 </main>
 
 <footer>
-  <!-- 여행 게시판에 대한 정보 및 연락처를 표시하세요 -->
-  <p>&copy; 2024 여행 게시판</p>
+  <p>&copy; 2024 또간집 게시판</p>
 </footer>
 </body>
 </html>

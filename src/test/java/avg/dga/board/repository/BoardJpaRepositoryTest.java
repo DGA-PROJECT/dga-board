@@ -29,8 +29,7 @@ class BoardJpaRepositoryTest {
   public void testBoard() throws Exception {
     //given
     User user = new User();
-    Board board = new Board(1L, user, "강원도 갔다왓어요","강원도 갔다온 내용", Area.kangwon, "안흥찐빵", TravelType.KID, DestiType.MARKET,"34.123451","123.51231");
-    board.toString();
+    Board board = new Board(1L, "강원도 갔다왓어요","강원도 갔다온 내용", user, Area.kangwon, "안흥찐빵", TravelType.KID, DestiType.MARKET, 1, "34.123451","123.51231", 1, false);
     //when
     boardRepository.save(board);
     //then

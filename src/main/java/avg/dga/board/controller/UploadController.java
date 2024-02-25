@@ -21,7 +21,6 @@ public class UploadController {
 
   private final AwsS3Service awsS3Service;
 
-
   @RequestMapping(value = "boards/uploadSummernoteImageFile", method = RequestMethod.POST)
   @ResponseBody
   public ResponseEntity<ApiResponseMessage> upload(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest request, RedirectAttributes redirectAttributes) {

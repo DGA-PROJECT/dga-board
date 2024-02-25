@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title th:text="'여행 - ' + ${board.title}"></title>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <style>
+      body {
+          background-color: #f8f9fa; /* 전체 배경색 설정 */
+          margin-top: 20px; /* 상단 여백 설정 */
+      }
+
+      .container {
+          background-color: #ffffff; /* 카드 배경색 설정 */
+          padding: 20px; /* 카드 안 여백 설정 */
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 설정 */
+      }
+
+      .card-title {
+          font-size: 24pt; /* 타이틀 크기 설정 */
+          color: #007bff; /* 타이틀 색상 설정 */
+          margin-bottom: 20px; /* 타이틀 아래 여백 설정 */
+      }
+
+      .text-muted {
+          color: #6c757d; /* 작성일 색상 설정 */
+      }
+
+      .card-body {
+          padding: 0; /* 카드 바디 안 여백 제거 */
+      }
+
+      #board-content {
+          margin-top: 20px; /* 글쓰기 내용 상단 여백 설정 */
+      }
+
+      .btn-info, .btn-danger {
+          margin-top: 10px; /* 수정 및 삭제 버튼 상단 여백 설정 */
+          margin-right: 10px; /* 수정 버튼과 삭제 버튼 사이 여백 설정 */
+      }
+
+      .row {
+          margin-top: 20px; /* 수정 및 삭제 버튼과 카드 사이 여백 설정 */
+      }
+
+      /* 수정 및 삭제 버튼을 오른쪽 아래로 위치시키는 스타일 */
+      .mt-3 {
+          position: relative;
+      }
+
+      .col-auto {
+          position: absolute;
+          bottom: 0;
+      }
+
+      .col-auto.right {
+          right: 0;
+      }
+  </style>
+  <script>
+      $(document).ready(function() {
+          // 페이지가 로드될 때 이미지를 표시하는 함수 호출
+          window.onload = displayImages;
+
+          function displayImages() {
+              var content = document.getElementById('board-content').innerHTML;
+              var parser = new DOMParser();
+              var doc = parser.parseFromString(content, 'text/html');
+              var images = doc.getElementsByTagName('img');
+              for (var i = 0; i < images.length; i++) {
+                  var img = images[i];
+                  img.style.width = '100%';
+                  img.style.display = 'block'; // 이미지를 보이도록 설정
+              }
+              document.getElementById('board-content').innerHTML = doc.body.innerHTML;
+          }
+      })
+  </script>
+</head>
+<body>
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <h1 class="card-title" th:text="${board.title}"></h1>
+      <!-- 글쓴이 닉네임 들어가야함 -->
+      <p class="card-text">
+        <small
+            class="text-muted"
+            th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}"></small>
+      </p>
+      <!-- 게시글 내용 -->
+      <div id="board-content" th:utext="${board.content}"></div>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <form id="delete-form" th:action="@{'/board/' + ${board.id}}" method="post">
+      <div class="col-auto right">
+        <a class="btn btn-info" th:href="@{'/board/edit/' + ${board.id}}" role="button">수정</a>
+        <input type="hidden" name="_method" value="delete" />
+        <button id="delete-btn" type="submit" class="btn btn-danger">삭제</button>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>
