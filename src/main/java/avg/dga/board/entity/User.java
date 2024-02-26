@@ -11,7 +11,8 @@ import java.util.List;
 
 @Getter
 @Setter
-@Entity(name = "tb_user")
+@Entity
+@Table(name = "tb_user")
 public class User {
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY )
   @Column(name = "user_id")
@@ -30,10 +31,10 @@ public class User {
   private String grade;
 
   @Column(name = "is_banned")
-  private Integer isBanned;
+  private Boolean isBanned;
 
   @Column(name = "is_admin")
-  private Integer isAdmin;
+  private Boolean isAdmin;
 
   @Column(name = "profile_image_link")
   private String profileImageLink;
