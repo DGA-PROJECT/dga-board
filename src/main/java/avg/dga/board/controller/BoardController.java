@@ -41,7 +41,7 @@ public class BoardController {
   // 게시물 작성 페이지 호출
   @GetMapping ("/write")
   public String write() {
-    return "/boards/write";
+    return "boards/write";
   }
 
   //게시물 작성
@@ -50,7 +50,7 @@ public class BoardController {
 
     boardService.saveBoard(boardRequest);
 
-      return "redirect:/boards/list";
+      return "redirect:boards/list";
   }
 
 
