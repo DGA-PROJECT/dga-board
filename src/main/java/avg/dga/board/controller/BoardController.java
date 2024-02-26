@@ -27,7 +27,6 @@ public class BoardController {
   public String list(Model model) {
     List<BoardRequest> boardRequestList = boardService.getBoardList();
     model.addAttribute("boardList", boardRequestList);
-    System.out.println("생성시간" + boardRequestList.getFirst().getCreateDate());
     return "boards/list";
   }
 
