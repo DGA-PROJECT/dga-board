@@ -50,7 +50,7 @@ public class BoardController {
 
     boardService.saveBoard(boardRequest);
 
-      return "redirect:boards/list";
+      return "redirect:list";
   }
 
 

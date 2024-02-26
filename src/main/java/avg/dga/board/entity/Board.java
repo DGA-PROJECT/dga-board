@@ -10,7 +10,7 @@ import org.springframework.util.Assert;
 @Getter
 @Setter
 @Entity
-@Table(name = "board")
+@Table(name = "tb_board")
 public class Board extends Time{
 
   @Id @GeneratedValue (strategy = GenerationType.IDENTITY)
