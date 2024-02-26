@@ -87,7 +87,7 @@
       <p class="card-text">
         <small
             class="text-muted"
-            th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}"></small>
+            th:text="${#temporals.format(board.createdTime, 'yyyy-MM-dd')}"></small>
       </p>
       <!-- 게시글 내용 -->
       <div id="board-content" th:utext="${board.content}"></div>
