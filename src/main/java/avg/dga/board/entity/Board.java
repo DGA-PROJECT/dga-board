@@ -10,11 +10,11 @@ import org.springframework.util.Assert;
 @Getter
 @Setter
 @Entity
-@Table(name = "tb_board")
+@Table(name = "posts")
 public class Board extends Time{
 
   @Id @GeneratedValue (strategy = GenerationType.IDENTITY)
-  @Column(name = "board_id")
+  @Column(name = "post_id")
   private Long id;
 
   @JoinColumn(name = "user_id", nullable = false)
@@ -27,11 +27,18 @@ public class Board extends Time{
   @Column(columnDefinition = "TEXT", nullable = false)
   private String content;
 
+  @Column
+  private String nickname;
+
   @Column(name = "area")
+  @Enumerated(value = EnumType.STRING)
   private Area area;
 
   @Column(name = "desti_name")
   private String destiName;
+
+  @Column(name = "thumbnail_url")
+  private String thumbnailUrl;
 
   @Column(name = "travel_type")
   @Enumerated(value = EnumType.STRING)
@@ -57,23 +64,26 @@ public class Board extends Time{
   private Boolean isBanned;
 
   @Builder
-  public Board(Long id, String title, String content, User user, Area area, String destiName, TravelType travelType, DestiType destiType,
-                Integer revisitCount, String latitude, String longitude, Integer likeCount, Boolean isBanned) {
+  public Board(Long id, String title, String content, String nickname, User user, Area area, Integer likeCount,
+               String destiName, TravelType travelType, DestiType destiType, String thumbnailUrl,
+                Integer revisitCount, String latitude, String longitude, Boolean isBanned) {
     Assert.hasText(title, "title must not be empty");
     Assert.hasText(content, "content must not be empty");
 
     this.id = id;
     this.title = title;
     this.content = content;
+    this.nickname = nickname;
     this.user = user;
     this.area = area;
+    this.likeCount = likeCount;
     this.destiName = destiName;
+    this.thumbnailUrl = thumbnailUrl;
     this.travelType = travelType;
     this.destiType = destiType;
     this.revisitCount = revisitCount;
     this.latitude = latitude;
     this.longitude = longitude;
-    this.likeCount = likeCount;
     this.isBanned = isBanned;
   }
 

@@ -387,31 +387,40 @@
     <section>
       <strong>  지역 : </strong>
       <div class="radio-group">
-        <input type="radio" name="area" value="seoul">서울<br>
+        <input type="radio" id="seoul" name="area" value="seoul" checked>
+        <label for="seoul">서울</label>
       </div>
       <div class="radio-group">
-        <input type="radio" name="area" value="chungcheong">충청도<br>
+        <input type="radio" id="chungcheong" name="area"  value="chungcheong">
+        <label for="chungcheong">충청도</label>
       </div>
       <div class="radio-group">
-        <input type="radio" name="area" value="kangwon">강원도<br>
+        <input type="radio" id="kangwon" name="area"  value="kangwon">
+        <label for="kangwon">강원도</label>
       </div>
       <div class="radio-group">
-        <input type="radio" name="area" value="gyeonggi">경기도<br>
+        <input type="radio" id="gyeonggi" name="area" value="gyeonggi">
+        <label for="gyeonggi">경기도</label>
       </div>
       <div class="radio-group">
-        <input type="radio" name="area" value="jeollanam">전라남도<br>
+        <input type="radio" id="jeollanam" name="area" value="jeollanam">
+        <label for="jeollanam">전라남도</label>
       </div>
       <div class="radio-group">
-        <input type="radio" name="area" value="jeollabuk">전라북도<br>
+        <input type="radio" id="jeollabuk" name="area" value="jeollabuk">
+        <label for="jeollabuk">전라북도</label>
       </div>
       <div class="radio-group">
-        <input type="radio" name="area" value="gyeongsangbuk">경상북도<br>
+        <input type="radio" id="gyeongsangbuk" name="area" value="gyeongsangbuk">
+        <label for="gyeongsangbuk">경상북도</label>
       </div>
       <div class="radio-group">
-        <input type="radio" name="area" value="gyeongsangnam">경상남도<br>
+        <input type="radio" id="gyeongsangnam" name="area" value="gyeongsangnam">
+        <label for="gyeongsangnam">경상남도</label>
       </div>
       <div class="radio-group">
-        <input type="radio" name="area" value="jeju">제주도
+        <input type="radio" id="jeju" name="area" value="jeju">
+        <label for="jeju">제주도</label>
       </div><br>
     </section>
     <section>
@@ -440,11 +449,9 @@
     </section>
     <!--hidden으로 들어가야하는 값들-->
     <section>
-      <strong> 재방문 횟수 : </strong>
-      <input type="number" id="revisit" name="revisit" readonly />
+      <input type="number" id="userId" name="userId" hidden="hidden" value="" />
+      <input type="text" id="nickname" name="nickname" hidden="hidden" value="" />
     </section>
-    <!-- 테스트용 유저 생성 -->
-    <input type="number" id="userId" name="userId" hidden="hidden" value="1" />
     <input type="text" id="title" name="title" class="title-input" placeholder="Enter title for your post" />
     <textarea id="summernote" name="content"></textarea>
     <a th:href="@{/templates/boards/list}" class="btn btn-secondary">뒤로 가기</a>
@@ -453,7 +460,22 @@
   </form>
   <script>
   $(document).ready(function() {
-
+      // 로컬 스토리지에서 userId 가져오기
+      var userId = window.localStorage.getItem('userId');
+      // userId가 없는 경우
+      if (!userId) {
+          // 경고창 표시
+          alert('로그인 후 이용 가능합니다.');
+          // 다른 페이지로 이동
+          window.location.href = 'https://www.daddygo.vacations';
+      } else {
+          // userId가 존재하는 경우
+          // userId 값을 hidden input에 설정
+          document.getElementById("userId").value = userId;
+          // 사용자의 닉네임을 hidden input에 설정
+          document.getElementById("nickname").value = window.localStorage.getItem('nickname');
+      }
+        /* 서머노트 설정*/
         $('#summernote').summernote({
         codeviewFilter: false, // 코드 보기 필터 비활성화
         codeviewIframeFilter: false, // 코드 보기 iframe 필터 비활성화
@@ -549,6 +571,7 @@
           },
       })
   }
+
   </script>
 </div>>
 </body>

@@ -1,7 +1,9 @@
 package avg.dga.board.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
@@ -9,10 +11,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "tb_user")
+@Table(name = "users")
 public class User {
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY )
   @Column(name = "user_id")
@@ -43,4 +46,20 @@ public class User {
 
   @Column(name = "created_time")
   private Date createDate;
+
+  @Builder
+  public User(Long id, List<Board> board, String nickName, String email, String birthDate, String grade, Boolean isBanned, Boolean isAdmin, String profileImageLink, String etc, Date createDate ){
+    this.id = id;
+    this.board = board;
+    this.nickName = nickName;
+    this.email = email;
+    this.birthDate = birthDate;
+    this.grade = grade;
+    this.isBanned = isBanned;
+    this.isAdmin = isAdmin;
+    this.profileImageLink = profileImageLink;
+    this.etc = etc;
+    this.createDate = createDate;
+  }
+
 }

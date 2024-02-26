@@ -2,6 +2,7 @@ package avg.dga.board.controller;
 
 import avg.dga.board.dto.BoardRequest;
 import avg.dga.board.service.BoardService;
+import avg.dga.board.service.UserService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequestMapping("/boards")
 public class BoardController {
   private  BoardService boardService;
+  private UserService userService;
 
   @Autowired
   public BoardController(BoardService boardService){
@@ -48,12 +50,11 @@ public class BoardController {
   @PostMapping ("/write")
   public String write(BoardRequest boardRequest){
 
+
     boardService.saveBoard(boardRequest);
 
       return "redirect:list";
   }
-
-
 
 }
 

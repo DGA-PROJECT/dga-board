@@ -2,6 +2,7 @@ package avg.dga.board.dto;
 
 import avg.dga.board.entity.*;
 import lombok.*;
+import software.amazon.awssdk.services.s3.endpoints.internal.Value;
 
 
 import java.time.LocalDateTime;
@@ -14,7 +15,9 @@ public class BoardRequest extends Time{
   private Long id;
   private String title;
   private String content;
+  private String nickname;
   private User user;
+  private Long userId;
   private Area area;
 
   private Integer revisitCount;
@@ -25,8 +28,7 @@ public class BoardRequest extends Time{
   private String destiName;
   private String latitude;
   private String longitude;
-  private String thumbnailImg;
-  private String s3ImgLnk;
+  private String thumbnailUrl;
 
   private LocalDateTime createDate;
   private LocalDateTime modifiedDate;
@@ -36,34 +38,38 @@ public class BoardRequest extends Time{
         .id(id)
         .title(title)
         .content(content)
-        .user(getUser())
+        .user(user)
         .destiName(destiName)
         .area(area)
         .longitude(longitude)
         .latitude(latitude)
+        .thumbnailUrl(thumbnailUrl)
         .destiType(destiType)
         .travelType(travelType)
-        //.likeCount(likeCount)
+        .likeCount(likeCount)
         .build();
   }
 
   @Builder
-  public BoardRequest(Long id, String title,  String content, User user, Area area, Integer revisitCount, TravelType travelType, DestiType destiType, String destiName, /*Integer likeCount,*/ String longitude, String latitude, String thumbnailImg,
-                     LocalDateTime createdDate, LocalDateTime modifiedDate){
+  public BoardRequest(Long id, String title, String content, String nickname, User user, Long userId, Area area, Integer revisitCount, TravelType travelType, DestiType destiType, String destiName, Integer likeCount, String longitude, String latitude, String thumbnailUrl,
+                      LocalDateTime createdDate, LocalDateTime modifiedDate){
     this.id = id;
     this.title = title;
     this.content = content;
+    this.nickname = nickname;
     this.user = user;
+    this.userId = userId;
     this.area = area;
     this.revisitCount = revisitCount;
     this.travelType = travelType;
     this.destiType = destiType;
     this.destiName = destiName;
-//    this.likeCount = likeCount;
+    this.likeCount = likeCount;
     this.longitude = longitude;
     this.latitude = latitude;
-    this.thumbnailImg = thumbnailImg;
+    this.thumbnailUrl = thumbnailUrl;
     this.createDate = createdDate;
     this.modifiedDate = modifiedDate;
   }
+
 }
