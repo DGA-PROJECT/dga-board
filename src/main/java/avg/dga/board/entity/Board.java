@@ -6,7 +6,10 @@ import lombok.*;
 
 import org.springframework.util.Assert;
 
-@NoArgsConstructor(access = AccessLevel.PUBLIC)  // 외부에서의 생성을 열어 둘 필요가 없을 때 PROTECT 가  / 보안적으로 권장된다.
+import java.util.ArrayList;
+import java.util.List;
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED)  // 외부에서의 생성을 열어 둘 필요가 없을 때 PROTECT가  / 보안적으로 권장된다.
 @Getter
 @Setter
 @Entity
@@ -20,6 +23,9 @@ public class Board extends Time{
   @JoinColumn(name = "user_id", nullable = false)
   @ManyToOne
   private User user ;
+
+  @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+  private List<Like> like = new ArrayList<>();
 
   @Column(name="title", length = 100, nullable = false)
   private String title;

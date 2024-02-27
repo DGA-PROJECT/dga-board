@@ -1,6 +1,5 @@
 package avg.dga.board.repository;
 
-import avg.dga.board.dto.BoardRequest;
 import avg.dga.board.entity.Board;
 import avg.dga.board.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
