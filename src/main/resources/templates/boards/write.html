@@ -9,22 +9,31 @@
   <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
   <script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
+  <!-- 구글 폰트 나눔 고딕 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
 
-<!--  <script src="/assets/js/summernote/summernote-lite.js"></script>
-  <script src="/assets/js/summernote/lang/summernote-ko-KR.js"></script>
-  <link rel="stylesheet" href="/assets/css/summernote/summernote-lite.css">-->
   <!-- CDN 한글화 -->
   <script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
+
+  <!--font awsome cdn-->
+  <script src="https://kit.fontawesome.com/358202279e.js" crossorigin="anonymous"></script>
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
 <style>
     @font-face {
-        font-family: 'BMEULJIRO';
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/BMEULJIRO.woff') format('woff');
-        font-weight: normal;
+        font-family: "Nanum Gothic", sans-serif;
+        font-weight: 400;
         font-style: normal;
     }
+
+    /* form 안의 모든 폰트 크기 설정 */
+    form {
+        font-size: 16px;
+    }
+
     .title-input {
         width: 100%;
         padding: 10px;
@@ -52,8 +61,10 @@
     section {
         margin : 10px 5px;
     }
-    .page_wrap {
 
+    /* 덮어씌우기 */
+    .modal-content {
+      padding : 10px;
     }
     /*  카카오 map api css */
     .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
@@ -380,12 +391,10 @@
   </script>
   <form class="form-horizontal" th:action="@{/boards/write}" method="post">
     <section>
-      목적지 : <input type="text" id="destiName" name="destiName"/><br>
-      위도: <input type="text" id="latitude" name="latitude"><br>
-      경도: <input type="text" id="longitude" name="longitude"><br>
+      <strong> <i class="fa-solid fa-location-dot"></i> 목적지 </strong><input type="text" id="destiName" name="destiName"/><br>
     </section>
     <section>
-      <strong>  지역 : </strong>
+      <strong> <i class="fa-solid fa-signs-post"></i> 지역 : </strong>
       <div class="radio-group">
         <input type="radio" id="seoul" name="area" value="seoul" checked>
         <label for="seoul">서울</label>
@@ -424,7 +433,7 @@
       </div><br>
     </section>
     <section>
-      <strong> 테마(키즈/효도): </strong><div class="radio-group">
+      <strong> <i class="fa-solid fa-child"></i>/<i class="fa-solid fa-person-cane"></i> 테마 : </strong><div class="radio-group">
       <input type="radio" id="kid" name="travelType" value="KID" checked>
       <label for="kid">키즈</label>
     </div>
@@ -434,7 +443,7 @@
       </div><br/>
     </section>
     <section>
-      <strong>장소타입 :</strong> <div class="radio-group">
+      <strong> <i class="fa-solid fa-thumbtack"></i>  장소타입 :</strong> <div class="radio-group">
       <input type="radio" id="restaurant" name="destiType" value="RESTAURANT" checked>
       <label for="restaurant">식당</label>
     </div>
@@ -449,34 +458,43 @@
     </section>
     <!--hidden으로 들어가야하는 값들-->
     <section>
+      <input type="text" id="latitude" name="latitude" hidden="hidden" />
+      <input type="text" id="longitude" name="longitude" hidden="hidden" />
       <input type="number" id="userId" name="userId" hidden="hidden" value="" />
       <input type="text" id="nickname" name="nickname" hidden="hidden" value="" />
     </section>
-    <input type="text" id="title" name="title" class="title-input" placeholder="Enter title for your post" />
-    <textarea id="summernote" name="content"></textarea>
-    <a th:href="@{/templates/boards/list}" class="btn btn-secondary">뒤로 가기</a>
-    <button type="input" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2
-  px-4 rounded">글쓰기</button>
+    <input type="text" id="title" name="title" class="title-input" placeholder="게시글 제목을 작성해주세요." />
+    <textarea id="summernote" name="content" placeholder="추억을 공유해주세요." ></textarea>
+    <a href="./list" class="btn btn-info btn-lg">뒤로 가기</a>
+    <button type="input" class="btn btn-primary btn-lg">글쓰기</button>
   </form>
   <script>
   $(document).ready(function() {
-      // 로컬 스토리지에서 userId 가져오기
-      var userId = window.localStorage.getItem('userId');
-      // userId가 없는 경우
-      if (!userId) {
-          // 경고창 표시
-          alert('로그인 후 이용 가능합니다.');
-          // 다른 페이지로 이동
-          window.location.href = 'https://www.daddygo.vacations';
-      } else {
-          // userId가 존재하는 경우
-          // userId 값을 hidden input에 설정
-          document.getElementById("userId").value = userId;
-          // 사용자의 닉네임을 hidden input에 설정
-          document.getElementById("nickname").value = window.localStorage.getItem('nickname');
-      }
+    /*잠시 테스트를 위해 주석처리*/
+    // 로컬 스토리지에서 userId 가져오기
+/*      var userId = window.localStorage.getItem('userId');
+    // userId가 없는 경우
+    if (!userId) {
+        // 경고창 표시
+        alert('로그인 후 이용 가능합니다.');
+        // 다른 페이지로 이동
+
+
+         window.location.href = 'https://www.daddygo.vacations';
+    } else {
+        // userId가 존재하는 경우
+        // userId 값을 hidden input에 설정
+        document.getElementById("userId").value = userId;
+        // 사용자의 닉네임을 hidden input에 설정
+        document.getElementById("nickname").value = window.localStorage.getItem('nickname');
+      }*/
+
+      /*test*/
+      document.getElementById("userId").value = 2 ;
+      document.getElementById("nickname").value = "클루셉시키";
+
         /* 서머노트 설정*/
-        $('#summernote').summernote({
+      $('#summernote').summernote({
         codeviewFilter: false, // 코드 보기 필터 비활성화
         codeviewIframeFilter: false, // 코드 보기 iframe 필터 비활성화
 

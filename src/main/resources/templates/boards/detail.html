@@ -5,9 +5,11 @@
   <title th:text="'여행 - ' + ${board.title}"></title>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <!--font awsome cdn-->
+  <script src="https://kit.fontawesome.com/358202279e.js" crossorigin="anonymous"></script>
   <style>
       body {
-          background-color: #f8f9fa; /* 전체 배경색 설정 */
+          background-color: #f9f9f9; /* 전체 배경색 설정 */
           margin-top: 20px; /* 상단 여백 설정 */
       }
 
@@ -15,16 +17,17 @@
           background-color: #ffffff; /* 카드 배경색 설정 */
           padding: 20px; /* 카드 안 여백 설정 */
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 설정 */
+          position: relative; /* 좋아요와 재방문 횟수를 위치시킬 때 사용할 relative 위치 설정 */
       }
 
       .card-title {
           font-size: 24pt; /* 타이틀 크기 설정 */
-          color: #007bff; /* 타이틀 색상 설정 */
+          color: #5aa9e6; /* 타이틀 색상 설정 */
           margin-bottom: 20px; /* 타이틀 아래 여백 설정 */
       }
 
       .text-muted {
-          color: #6c757d; /* 작성일 색상 설정 */
+          color: #ff6392; /* 작성일 색상 설정 */
       }
 
       .card-body {
@@ -57,6 +60,15 @@
       .col-auto.right {
           right: 0;
       }
+
+      /* 우측 상단 좋아요와 재방문 횟수 표시를 위한 스타일 */
+      .like-revisit {
+          position: absolute;
+          top: 40px;
+          right: 20px;
+          font-size: 16px;
+          color: #6c757d;
+      }
   </style>
   <script>
       $(document).ready(function() {
@@ -82,6 +94,9 @@
 <div class="container">
   <div class="card">
     <div class="card-body">
+      <div class="like-revisit">
+        <i class="fa-regular fa-heart fa-lg"></i> <span id="like-count" th:text="${board.likeCount}">></span> | 재방문 횟수: <span id="revisit-count" th:text="${board.revisitCount}"></span>
+      </div>
       <h1 class="card-title" th:text="${board.title}"></h1>
       <!-- 글쓴이 닉네임 들어가야함 -->
       <p class="card-text">
@@ -102,6 +117,3 @@
       </div>
     </form>
   </div>
-</div>
-</body>
-</html>

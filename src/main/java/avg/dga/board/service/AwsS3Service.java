@@ -13,7 +13,9 @@ import software.amazon.awssdk.services.s3.model.GetUrlRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.S3Exception;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -27,27 +29,43 @@ public class AwsS3Service {
 
   public String uploadFile(MultipartFile multipartFile) {
 
-    String fileName = multipartFile.getOriginalFilename();
-
     try {
+      // 중복 되는 파일을 덮어쓰지 않도록 고유한 파일 이름 생성
+      String fileName = genernateUniqueFileName(multipartFile.getOriginalFilename());
+
+      //  MultiPartFile 임시 파일 생성
+      File tempFile = File.createTempFile("temp", null);
+      multipartFile.transferTo(tempFile);
+
+      // PutObjectRequest  생성
       PutObjectRequest putObjectRequest = PutObjectRequest.builder()
           .bucket(bucketName)
           .contentType(multipartFile.getContentType())
           .contentLength(multipartFile.getSize())
           .key(fileName)
           .build();
-      RequestBody requestBody = RequestBody.fromBytes(multipartFile.getBytes());
-      s3Client.putObject(putObjectRequest, requestBody);
+      // 파일을 S3에 업로드
+      s3Client.putObject(putObjectRequest, RequestBody.fromFile(tempFile));
+
+      // 업로드한 이미지 URL 가져오기
+      GetUrlRequest getUrlRequest = GetUrlRequest.builder()
+          .bucket(bucketName)
+          .key(fileName)
+          .build();
+
+      //임시 파일 삭제
+      tempFile.delete();
+
+      log.info( "S3 이미지 경로" + s3Client.utilities().getUrl(getUrlRequest).toString());
+
+      return s3Client.utilities().getUrl(getUrlRequest).toString();
+
     } catch (IOException e) {
       log.error("cannot upload image", e);
       throw new RuntimeException(e);
     }
-    GetUrlRequest getUrlRequest = GetUrlRequest.builder()
-        .bucket(bucketName)
-        .key(fileName)
-        .build();
 
-    return s3Client.utilities().getUrl(getUrlRequest).toString();
+
   }
 
   public void deleteFile(String fileName) {
@@ -62,5 +80,18 @@ public class AwsS3Service {
       log.error("Error deleting file from S3: {}", e.getMessage());
       throw new RuntimeException(e);
     }
+  }
+
+  private String genernateUniqueFileName(String originalFileName){
+    // 파일 확장자 추출 (jpg, png ...)
+    String extension = "";
+    int dotindex = originalFileName.lastIndexOf(".");
+    if (dotindex > 0){
+      extension = originalFileName.substring(dotindex);
+    }
+
+    // UUID 를 활용해서 이미지 파일명을 고유하게 생성
+    String uniqueFileName = UUID.randomUUID().toString() + extension;
+    return uniqueFileName;
   }
 }

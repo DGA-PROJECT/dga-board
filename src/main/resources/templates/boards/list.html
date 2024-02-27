@@ -5,32 +5,35 @@
   <title>게시판 - 목록</title>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <!--font awsome cdn-->
+  <script src="https://kit.fontawesome.com/358202279e.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="container">
   <table class="table">
     <thead class="thead-light">
     <tr class="text-center">
-      <th class="text-center" scope="col">#</th>
+      <th class="text-center" scope="col"><i class="fa-solid fa-list text-center"></i></th>
       <th class="text-center" scope="col">제목</th>
-      <!--      <th scope="col">작성자</th>-->
+      <th class="text-center" scope="col">작성자</th>
       <th class="text-center" scope="col">작성일</th>
+      <th class="text-center" scope="col"><i class="fa-solid fa-heart text-center"></i></th>
     </tr>
     </thead>
     <tbody>
-    <tr  th:each="board : ${boardList}">
-      <th scope="row">
+    <tr class="text-center" th:each="board : ${boardList}">
+      <th class="text-center" scope="row">
         <span th:text="${board.id}"></span>
       </th>
       <td>
         <a th:href="@{'/boards/' + ${board.id}}">
           <span th:text="${board.title}"></span>
         </a>
-      <!--      <td>-->
-      <!--        <span th:text="${board.member}"></span>-->
-      <!--      </td>-->
+      <td class="text-center">
+        <span th:text="${board.nickname}"></span>
+      </td>
       <td th:text="${board.createDate}"></td>
-      <
+      <td class="text-center" th:text="${board.likeCount}"></td>
     </tr>
     </tbody>
   </table>

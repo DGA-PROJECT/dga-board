@@ -40,7 +40,7 @@ public class BoardService {
       List<Board> boards = findBoardSameUserWithDestiName(board.getUser(), board.getDestiName());
 
       // then 또간 횟 수가 1 이상이면
-      if(boards.size()>1){
+      if(boards.size()>=1){
           List<Integer> RevisitCountList = new ArrayList<>();
           Integer maxRevisitCount;
           // 첫번째 조회한 revisit 조회수
@@ -77,7 +77,8 @@ public class BoardService {
           .destiName(board.getDestiName())
           .destiType(board.getDestiType())
           .travelType(board.getTravelType())
-//          .likeCount(board.getLikeCount())  // NullpointException 오류 뜰꺼임
+          .likeCount(board.getLikeCount())  // NullpointException 오류 뜰꺼임
+          .nickname(board.getNickname())
           .revisitCount(board.getRevisitCount())
           .latitude(board.getLatitude())
           .longitude(board.getLongitude())
@@ -100,7 +101,7 @@ public class BoardService {
         .destiName(board.getDestiName())
         .destiType(board.getDestiType())
         .travelType(board.getTravelType())
-//          .likeCount(board.getLikeCount())  // NullpointException 오류 뜰꺼임
+        .likeCount(board.getLikeCount())
         .revisitCount(board.getRevisitCount())
         .latitude(board.getLatitude())
         .longitude(board.getLongitude())
