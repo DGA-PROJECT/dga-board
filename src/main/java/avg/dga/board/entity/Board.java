@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import lombok.*;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
@@ -67,6 +68,7 @@ public class Board extends Time{
   private String longitude;
 
   @Column(name = "is_banned")
+  @ColumnDefault("false")
   private Boolean isBanned;
 
   @Builder

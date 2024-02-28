@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 
 import java.util.ArrayList;
@@ -34,9 +35,11 @@ public class User {
   private String grade;
 
   @Column(name = "is_banned")
+  @ColumnDefault("false")
   private Boolean isBanned;
 
   @Column(name = "is_admin")
+  @ColumnDefault("false")
   private Boolean isAdmin;
 
   @Column(name = "profile_image_link")

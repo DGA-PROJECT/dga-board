@@ -4,6 +4,7 @@ import avg.dga.board.dto.ApiResponseMessage;
 import avg.dga.board.dto.BoardRequest;
 import avg.dga.board.service.AwsS3Service;
 import avg.dga.board.service.BoardService;
+import avg.dga.board.service.LikeService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
@@ -25,12 +26,14 @@ import java.util.List;
 @RequestMapping("/boards")
 public class BoardController {
   private final AwsS3Service awsS3Service;
-  private  BoardService boardService;
+  private BoardService boardService;
+  private LikeService likeService;
 
   @Autowired
-  public BoardController(AwsS3Service awsS3Service, BoardService boardService){
+  public BoardController(AwsS3Service awsS3Service, BoardService boardService, LikeService likeService){
     this.awsS3Service = awsS3Service;
     this.boardService = boardService;
+    this.likeService = likeService;
   }
 
   // 게시물 리스트 조회
@@ -46,6 +49,9 @@ public class BoardController {
   public String detail(@PathVariable("id") Long id, Model model) {
     BoardRequest boardRequest = boardService.getBoard(id);
     model.addAttribute("board", boardRequest);
+
+    int like = likeService.findLike(boardRequest.getId(), boardRequest.getUserId());
+    model.addAttribute("like",like);
     return "boards/detail";
   }
 
@@ -58,11 +64,13 @@ public class BoardController {
   //게시물 작성
   @PostMapping ("/write")
   public String write(BoardRequest boardRequest){
-
-
     boardService.saveBoard(boardRequest);
-
       return "redirect:list";
+  }
+
+  @PostMapping("/like")
+  public @ResponseBody int like(Long boardId, Long userId){
+    return likeService.saveLike(boardId, userId);
   }
 
   @RequestMapping(value = "/upload", method = RequestMethod.POST)

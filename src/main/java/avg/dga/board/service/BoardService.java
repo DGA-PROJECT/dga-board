@@ -16,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -34,6 +37,15 @@ public class BoardService {
       boardRequest.setLikeCount(0);
 
       Board board = boardRequest.toEntity();
+
+      // Thumnail 이미지 가져오기
+      String content = board.getContent();
+      String thumnailUrl = getImageUrl(content);
+
+      System.out.println("thumnailUrl = " + thumnailUrl);
+
+      board.setThumbnailUrl(thumnailUrl);
+
       board.setUser(user);
       board.setNickname(boardRequest.getNickname());
       // 똑같은 유저 아이디와 여행지명으로 갔다면 또간집임으로 두건 이상의 리스트가 나옴
@@ -72,6 +84,7 @@ public class BoardService {
       BoardRequest boardRequest = BoardRequest.builder()
           .id(board.getId())
           .user(board.getUser())
+          .userId(board.getUser().getId()) // 유저 아이디 가져오기
           .title(board.getTitle())
           .content(board.getContent())
           .destiName(board.getDestiName())
@@ -93,9 +106,10 @@ public class BoardService {
   public BoardRequest getBoard(Long id) {
     Board board = boardRepository.findById(id);
 
-    BoardRequest boardRequest = BoardRequest.builder()
+    return BoardRequest.builder()
         .id(board.getId())
         .user(board.getUser())
+        .userId(board.getUser().getId())
         .title(board.getTitle())
         .content(board.getContent())
         .destiName(board.getDestiName())
@@ -107,7 +121,6 @@ public class BoardService {
         .longitude(board.getLongitude())
         .createdDate(board.getCreatedTime())
         .build();
-    return boardRequest;
   }
 
   private  List<Board> findBoardSameUserWithDestiName(final User user, final String destiName){
@@ -125,6 +138,23 @@ public class BoardService {
         .createdDate(board.getCreatedTime())
         .modifiedDate(board.getModifiedTime())
         .build();
+  }
+
+  // 게시글 content 에서 첫 img 태그의 url를 썸네일 url로 추출
+  public static String getImageUrl(String content) {
+    // 정규 표현식을 사용하여 img 태그 추출
+    Matcher matcher = Pattern.compile("<img\\s+[^>]*?src\\s*=\s*['\"]([^'\"]+)['\"][^>]*?>").matcher(content);
+
+    // img 태그가 없는 경우
+    if (!matcher.find()) {
+      return "<img src='https://dgaui.s3.ap-northeast-2.amazonaws.com/noThumbImg.webp'>";
+    }
+
+    // img 태그의 src 속성 값 추출
+    String url = matcher.group(1);
+
+    // URL 앞뒤 공백 제거
+    return url.trim();
   }
 
 }

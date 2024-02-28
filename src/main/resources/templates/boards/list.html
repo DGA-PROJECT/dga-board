@@ -33,7 +33,9 @@
       <td class="text-center">
         <span th:text="${board.nickname}"></span>
       </td>
-      <td th:text="${board.createDate}"></td>
+      <td class="text-center">
+        <span th:text="${#temporals.format(board.createDate, 'yyyy-MM-dd HH:mm:ss')}"></span>
+      </td>
       <td class="text-center" th:text="${board.likeCount}"></td>
     </tr>
     </tbody>

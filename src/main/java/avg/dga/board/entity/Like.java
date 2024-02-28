@@ -4,9 +4,11 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
 @Table(name = "likes")
 public class Like {
@@ -16,19 +18,18 @@ public class Like {
   private Long id;
 
   @JoinColumn(name = "user_id")
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   private User user;
 
   @JoinColumn(name = "board_id")
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   private Board board;
 
-  @Builder
-  public Like (Long id, User user, Board board) {
-    Like.builder()
-        .id(id)
-        .user(user)
-        .board(board)
-        .build();
+  public static Like toLikeEntity(User user, Board board){
+    Like like = new Like();
+    like.setBoard(board);
+    like.setUser(user);
+
+    return like;
   }
 }
