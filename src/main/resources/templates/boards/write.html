@@ -8,14 +8,14 @@
   <!-- summernote   -->
   <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-  <script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
   <!-- 구글 폰트 나눔 고딕 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
 
   <!-- CDN 한글화 -->
-  <script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
 
   <!--font awsome cdn-->
   <script src="https://kit.fontawesome.com/358202279e.js" crossorigin="anonymous"></script>
@@ -574,7 +574,7 @@
           async: false,                   // 비동기를 false로 안하면 데이터를 보내는 중에 에러 터짐
           cache: false,
           type: 'POST',
-          url: '/boards/upload',
+          url: '/api/boards/upload',
           enctype: 'multipart/form-data',
           contentType: false,
           processData: false,
