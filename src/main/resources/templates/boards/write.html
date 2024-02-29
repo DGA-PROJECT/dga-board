@@ -3,6 +3,7 @@
 <head>
   <title>아빠 또 기?</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <!-- summernote   -->
@@ -103,6 +104,20 @@
     #pagination {margin:10px auto;text-align: center;}
     #pagination a {display:inline-block;margin-right:10px;}
     #pagination .on {font-weight: bold; cursor: default;color:#777;}
+
+    @media only screen and (max-width: 600px) {
+        form {
+            font-size: 14px;
+        }
+
+        .title-input {
+            width: 90%;
+        }
+
+        #menu_wrap {
+            height: 200px;
+        }
+    }
 </style>
 <body>
 <div class="container">
@@ -564,9 +579,17 @@
         },
     })
   })
-
+  let currentPageUrl = window.location.href;
   // 이미지 업로드 함수 ajax 활용
   function uploadSummernoteImageFile(file, el, caption) {
+
+      if (currentPageUrl.includes('api')) {
+          currentPageUrl = '/api/boards/upload';
+      } else {
+          currentPageUrl = '/boards/upload';
+      }
+      alert("currentPageUrl : " + currentPageUrl);
+
       data = new FormData()
       data.append('file', file)
       $.ajax({
@@ -574,7 +597,7 @@
           async: false,                   // 비동기를 false로 안하면 데이터를 보내는 중에 에러 터짐
           cache: false,
           type: 'POST',
-          url: '/api/boards/upload',
+          url: currentPageUrl,
           enctype: 'multipart/form-data',
           contentType: false,
           processData: false,

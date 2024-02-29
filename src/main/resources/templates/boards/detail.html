@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title th:text="'여행 - ' + ${board.title}"></title>
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -67,6 +68,24 @@
           right: 20px;
           font-size: 16px;
           color: #6c757d;
+      }
+      @media only screen and (max-width: 600px) {
+          form {
+              font-size: 14px;
+          }
+          .like-revisit {
+              position: absolute;
+              top: 6px;
+              right: 20px;
+              font-size: 12px;
+              color: #6c757d;
+          }
+
+          .card-title {
+              font-size: 18px;
+              color: #5aa9e6;
+              margin-bottom: 20px;
+          }
       }
   </style>
   <script>

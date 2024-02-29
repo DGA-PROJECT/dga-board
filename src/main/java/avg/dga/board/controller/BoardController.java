@@ -36,6 +36,12 @@ public class BoardController {
     this.likeService = likeService;
   }
 
+  @GetMapping("/")
+  public String index() {
+    return "index";
+  }
+
+
   // 게시물 리스트 조회
   @GetMapping("/list")
   public String list(Model model) {

@@ -3,20 +3,15 @@ package avg.dga.board.service;
 import avg.dga.board.dto.BoardRequest;
 import avg.dga.board.entity.Board;
 import avg.dga.board.entity.User;
-
 import avg.dga.board.repository.BoardRepository;
 import avg.dga.board.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -147,7 +142,7 @@ public class BoardService {
 
     // img 태그가 없는 경우
     if (!matcher.find()) {
-      return "<img src='https://dgaui.s3.ap-northeast-2.amazonaws.com/noThumbImg.webp'>";
+      return "https://dgaui.s3.ap-northeast-2.amazonaws.com/noThumbImg.webp";
     }
 
     // img 태그의 src 속성 값 추출
