@@ -104,33 +104,41 @@
       }
     });
 
-      document.addEventListener("DOMContentLoaded", function() {
-          const likeButton = document.getElementById('like-button');
-          likeButton.addEventListener('click', function() {
+    let currentPageUrl = window.location.href;
 
-              const likeVal = document.getElementById('like').classList.contains('fa-solid');
-              const boardId = document.getElementById('boardId').value;
-              const userId = document.getElementById('userId').value;
+    document.addEventListener("DOMContentLoaded", function() {
+        const likeButton = document.getElementById('like-button');
+        likeButton.addEventListener('click', function() {
 
-              let confirmMessage = "현재 게시물을 추천하시겠습니까?";
-              if (likeVal) {
-                  confirmMessage = "현재 게시물 추천을 취소하시겠습니까?";
-              }
-              if (confirm(confirmMessage)) {
-                  console.log("토글 버튼 클릭");
+            const likeVal = document.getElementById('like').classList.contains('fa-solid');
+            const boardId = document.getElementById('boardId').value;
+            const userId = document.getElementById('userId').value;
 
-                  $.ajax({
-                      url: '/boards/like',
-                      type: 'POST',
-                      data: {'boardId': boardId, 'userId': userId},
-                      success: function (data){
+            let confirmMessage = "현재 게시물을 추천하시겠습니까?";
+            if (likeVal) {
+                confirmMessage = "현재 게시물 추천을 취소하시겠습니까?";
+            }
 
-                          location.reload();
-                      }
-                  });
-              }
-          });
-      });
+            if (currentPageUrl.includes('api')) {
+                currentPageUrl = '/api/boards/like';
+            } else {
+                currentPageUrl = '/boards/like';
+            }
+
+            if (confirm(confirmMessage)) {
+                console.log("토글 버튼 클릭");
+
+                $.ajax({
+                    url: currentPageUrl,
+                    type: 'POST',
+                    data: {'boardId': boardId, 'userId': userId},
+                    success: function (data){
+                        location.reload();
+                    }
+                });
+            }
+        });
+    });
   </script>
 </head>
 <body>
