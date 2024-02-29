@@ -71,7 +71,7 @@ public class BoardController {
   @PostMapping ("/write")
   public String write(BoardRequest boardRequest){
     boardService.saveBoard(boardRequest);
-      return "redirect:api/boards/list";
+      return "redirect:/api/boards/list";
   }
 
   @PostMapping("/like")
