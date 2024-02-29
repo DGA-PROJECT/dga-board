@@ -38,7 +38,7 @@ public class BoardController {
 
   @GetMapping("/")
   public String index() {
-    return "index";
+    return "index" ;
   }
 
 
@@ -71,7 +71,7 @@ public class BoardController {
   @PostMapping ("/write")
   public String write(BoardRequest boardRequest){
     boardService.saveBoard(boardRequest);
-      return "redirect:list";
+      return "redirect:api/boards/list";
   }
 
   @PostMapping("/like")
