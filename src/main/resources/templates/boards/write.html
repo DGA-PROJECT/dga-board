@@ -404,7 +404,7 @@
       }
 
   </script>
-  <form class="form-horizontal" th:action="@{/boards/write}" method="post">
+  <form class="form-horizontal" th:action="@{/api/boards/write}" method="post">
     <section>
       <strong> <i class="fa-solid fa-location-dot"></i> 목적지 </strong><input type="text" id="destiName" name="destiName"/><br>
     </section>
@@ -481,7 +481,7 @@
     <input type="text" id="title" name="title" class="title-input" placeholder="게시글 제목을 작성해주세요." />
     <textarea id="summernote" name="content" placeholder="추억을 공유해주세요." ></textarea>
     <a href="./list" class="btn btn-info btn-lg">뒤로 가기</a>
-    <button type="input" class="btn btn-primary btn-lg">글쓰기</button>
+    <button type="submit" class="btn btn-primary btn-lg">글쓰기</button>
   </form>
   <script>
   $(document).ready(function() {
@@ -616,6 +616,6 @@
   }
 
   </script>
-</div>>
+</div>
 </body>
 </html>
