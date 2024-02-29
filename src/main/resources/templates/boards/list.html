@@ -35,7 +35,7 @@
         <span th:text="${board.id}"></span>
       </th>
       <td>
-        <a th:href="@{'/boards/' + ${board.id}}">
+        <a th:href="@{'/api/boards/' + ${board.id}}">
           <span th:text="${board.title}"></span>
         </a>
       <td class="text-center">
@@ -51,7 +51,7 @@
   <div class="row">
     <div class="col-auto mr-auto"></div>
     <div class="col-auto">
-      <a class="btn btn-primary" th:href="@{/boards/write}" role="button">글쓰기</a>
+      <a class="btn btn-primary justify-content-end" th:href="@{/api/boards/write}" role="button">글쓰기</a>
     </div>
   </div>
 </div>
