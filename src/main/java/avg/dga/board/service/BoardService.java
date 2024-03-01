@@ -7,6 +7,10 @@ import avg.dga.board.repository.BoardRepository;
 import avg.dga.board.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -69,6 +73,32 @@ public class BoardService {
       log.error( e.getMessage());
     }
   }
+
+  // 게시글 페이징 처리된 화면 서비스
+  public Page<BoardRequest> paging(Pageable pageable){
+    int page = pageable.getPageNumber() - 1 ;
+    int pageLimit= 5;
+    Page<Board> boards =
+        boardRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC,"id")));
+    Page<BoardRequest> boardRequests = boards.map(board -> BoardRequest.builder()
+        .id(board.getId())
+        .user(board.getUser())
+        .userId(board.getUser().getId()) // 유저 아이디 가져오기
+        .title(board.getTitle())
+        .content(board.getContent())
+        .destiName(board.getDestiName())
+        .destiType(board.getDestiType())
+        .travelType(board.getTravelType())
+        .likeCount(board.getLikeCount())  // NullpointException 오류 뜰꺼임
+        .nickname(board.getNickname())
+        .revisitCount(board.getRevisitCount())
+        .latitude(board.getLatitude())
+        .longitude(board.getLongitude())
+        .createdDate(board.getCreatedTime())
+        .build());
+    return boardRequests;
+  }
+
 
   //리스트 페이지 조회시 서비스
   public List<BoardRequest> getBoardList() {

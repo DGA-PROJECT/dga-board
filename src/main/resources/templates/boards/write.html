@@ -404,7 +404,7 @@
       }
 
   </script>
-  <form class="form-horizontal" th:action="@{/api/boards/write}" method="post">
+  <form id="writeFrom" class="form-horizontal" th:action="@{/api/boards/write}" method="post">
     <section>
       <strong> <i class="fa-solid fa-location-dot"></i> 목적지 </strong><input type="text" id="destiName" name="destiName"/><br>
     </section>
@@ -485,15 +485,52 @@
   </form>
   <script>
   $(document).ready(function() {
-    /*잠시 테스트를 위해 주석처리*/
+
+      // 현재 페이지 URL 가져오기
+      let currentPageUrl = window.location.href;
+
+      // 'api' 문자열이 포함되어 있는지 확인
+      if (currentPageUrl.includes('api')) {
+          // 'api' 문자열이 포함되어 있으면 /api/boards/write로 설정
+          $("form").attr("action", "/api/boards/write");
+      } else {
+          // 'api' 문자열이 포함되어 있지 않으면 /boards/write로 설정
+          $("form").attr("action", "/boards/write");
+      }
+
+      // form 제출 시 실행되는 함수
+      function validateForm() {
+          // title, content, destiName의 값을 가져옴
+          var title = document.getElementById("title").value;
+          var content = document.getElementById("summernote").value;
+          var destiName = document.getElementById("destiName").value;
+
+          // title, content, destiName이 비어 있는지 확인
+          if (title.trim() === "" || content.trim() === "" || destiName.trim() === "") {
+              // 하나라도 비어 있다면 알림창을 띄움
+              alert("제목, 내용, 목적지를 모두 입력해주세요.");
+              return false; // form 제출을 중단
+          }
+          return true; // form 제출을 허용
+      }
+
+      // form 제출 시 validateForm 함수 실행
+      document.getElementById("writeFrom").addEventListener("submit", function(event) {
+          // form 제출을 막고 validateForm 함수 실행
+          event.preventDefault();
+          if (validateForm()) {
+              // 모든 필드가 채워져 있으면 form 제출
+              this.submit();
+          }
+      });
+
     // 로컬 스토리지에서 userId 가져오기
-/*      var userId = window.localStorage.getItem('userId');
+      var userId = window.localStorage.getItem('userId');
     // userId가 없는 경우
     if (!userId) {
         // 경고창 표시
         alert('로그인 후 이용 가능합니다.');
         // 다른 페이지로 이동
-
 
          window.location.href = 'https://www.daddygo.vacations';
     } else {
@@ -502,11 +539,7 @@
         document.getElementById("userId").value = userId;
         // 사용자의 닉네임을 hidden input에 설정
         document.getElementById("nickname").value = window.localStorage.getItem('nickname');
-      }*/
-
-      /*test*/
-      document.getElementById("userId").value = 2 ;
-      document.getElementById("nickname").value = "클루셉시키";
+      }
 
         /* 서머노트 설정*/
       $('#summernote').summernote({
