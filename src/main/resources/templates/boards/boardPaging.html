@@ -32,7 +32,7 @@
     <tbody>
     <tr  th:each="board: ${boardList}">
       <td class="text-center" th:text="${board.id}"></td>
-      <td><a th:href="@{/api/boards/${board.id}|}" th:text="${board.title}">제목</a></td>
+      <td><a th:href="@{'/api/boards/'+ ${board.id}}" th:text="${board.title}">제목</a></td>
       <td class="text-center" th:text="${board.nickname}"></td>
       <td class="text-center" th:text="${#temporals.format(board.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
       <td class="text-center" th:text="${board.likeCount}"></td>
@@ -101,20 +101,21 @@
     </div> <!-- /container -->
 
   <script th:inline="javascript">
-      console.log("gdgd");
+
       let currentPageUrl = window.location.href;
 
-      if(!currentPageUrl.includes("daddygo.vacations")){
+      // 리다이렉션이 NLB 로 되면 강제로 돌아오게 설정 --> 좋은  방법이 아님 개선 필요
+      if(currentPageUrl.includes("dga-nlb")){
           window.location.href = "https://www.daddygo.vacations/api/boards/";
       }
 
-      window.onload = function() {
+/*      window.onload = function() {
            let pageNumber= [[ ${boardList.pageable.pageNumber }]];
            let pageSize = [[ ${boardList.pageable.pageSize} ]];
            let totalPages = [[ ${boardList.totalPages} ]];
            let startPage = [[ ${startPage} ]];
            let endPage = [[ ${endPage} ]];
-    }
+    }*/
   </script>
 
 
