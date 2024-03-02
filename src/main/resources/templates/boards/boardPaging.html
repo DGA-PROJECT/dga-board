@@ -101,17 +101,20 @@
     </div> <!-- /container -->
 
   <script th:inline="javascript">
-  window.location.href = "https://www.daddygo.vacations/api/boards/";
+      let currentPageUrl = window.location.href;
 
-  window.onload = function() {
-       let pageNumber= [[ ${boardList.pageable.pageNumber }]];
-       let pageSize = [[ ${boardList.pageable.pageSize} ]];
-       let totalPages = [[ ${boardList.totalPages} ]];
-       let startPage = [[ ${startPage} ]];
-       let endPage = [[ ${endPage} ]];
 
-  location.href
-  }
+      if(!currentPageUrl.includes("daddygo.vacations")){
+          window.location.href = "https://www.daddygo.vacations/api/boards/";
+      }
+
+      window.onload = function() {
+           let pageNumber= [[ ${boardList.pageable.pageNumber }]];
+           let pageSize = [[ ${boardList.pageable.pageSize} ]];
+           let totalPages = [[ ${boardList.totalPages} ]];
+           let startPage = [[ ${startPage} ]];
+           let endPage = [[ ${endPage} ]];
+    }
   </script>
 
 
