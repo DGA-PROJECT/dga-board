@@ -32,7 +32,7 @@
     <tbody>
     <tr  th:each="board: ${boardList}">
       <td class="text-center" th:text="${board.id}"></td>
-      <td><a th:href="@{'./boards/'+ ${board.id}}" th:text="${board.title}">제목</a></td>
+      <td><a th:href="@{'../boards/'+ ${board.id}}" th:text="${board.title}">제목</a></td>
       <td class="text-center" th:text="${board.nickname}"></td>
       <td class="text-center" th:text="${#temporals.format(board.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
       <td class="text-center" th:text="${board.likeCount}"></td>
