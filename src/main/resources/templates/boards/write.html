@@ -523,25 +523,25 @@
       });
 
       /*test*/
-      document.getElementById("userId").value = 2 ;
-      document.getElementById("nickname").value = "클루셉시키";
+      // document.getElementById("userId").value = 2 ;
+      // document.getElementById("nickname").value = "클루셉시키";
 
-    // // 로컬 스토리지에서 userId 가져오기
-    //   var userId = window.localStorage.getItem('userId');
-    // // userId가 없는 경우
-    // if (!userId) {
-    //     // 경고창 표시
-    //     alert('로그인 후 이용 가능합니다.');
-    //     // 다른 페이지로 이동
-    //
-    //      window.location.href = 'https://www.daddygo.vacations';
-    // } else {
-    //     // userId가 존재하는 경우
-    //     // userId 값을 hidden input에 설정
-    //     document.getElementById("userId").value = userId;
-    //     // 사용자의 닉네임을 hidden input에 설정
-    //     document.getElementById("nickname").value = window.localStorage.getItem('nickname');
-    //   }
+      // 로컬 스토리지에서 userId 가져오기
+        var userId = window.localStorage.getItem('userId');
+      // userId가 없는 경우
+      if (!userId) {
+          // 경고창 표시
+          alert('로그인 후 이용 가능합니다.');
+          // 다른 페이지로 이동
+
+           window.location.href = 'https://www.daddygo.vacations';
+      } else {
+          // userId가 존재하는 경우
+          // userId 값을 hidden input에 설정
+          document.getElementById("userId").value = userId;
+          // 사용자의 닉네임을 hidden input에 설정
+          document.getElementById("nickname").value = window.localStorage.getItem('nickname');
+        }
 
         /* 서머노트 설정*/
       $('#summernote').summernote({
@@ -623,7 +623,7 @@
       } else {
           currentPageUrl = '/boards/upload';
       }
-      alert("currentPageUrl : " + currentPageUrl);
+      //alert("currentPageUrl : " + currentPageUrl);
 
       data = new FormData()
       data.append('file', file)
