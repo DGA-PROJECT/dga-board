@@ -200,6 +200,32 @@
           }
       }
 
+      function addLatAndLong(marker) {
+          var lat = marker.getPosition().getLat();
+          var lng = marker.getPosition().getLng();
+
+          document.getElementById('latitude').value = lat
+          document.getElementById('longitude').value = lng
+          getLocationName(lat, lng);
+
+          // 마커 선택시 띄울 메세지
+          // 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
+          var iwContent = '<div style="color: #3c763d; padding:7px;">여기 또갈까 ?</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+              iwRemoveable = false; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+
+          // 인포윈도우를 생성합니다
+          var infowindow = new kakao.maps.InfoWindow({
+              content : iwContent,
+              removable : iwRemoveable
+          });
+          infowindow.setContent(iwContent);
+          infowindow.open(map, marker);
+          setTimeout(function() {
+              infowindow.close();
+          }, 2000);
+
+      }
+
       // 검색 결과 목록과 마커를 표출하는 함수입니다
       function displayPlaces(places) {
 
@@ -220,6 +246,9 @@
               // 마커를 생성하고 지도에 표시합니다
               var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
                   marker = addMarker(placePosition, i),
+
+
+
                   itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
 
               // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
@@ -236,6 +265,11 @@
 
                   kakao.maps.event.addListener(marker, 'mouseout', function() {
                       infowindow.close();
+                  });
+                  // custom
+                  kakao.maps.event.addListener(marker, 'click', function (){
+                      addDestiName(marker, title);
+                      addLatAndLong(marker);
                   });
 
                   itemEl.onmouseover =  function () {
@@ -301,29 +335,11 @@
 
 
 
-          // 마커 선택시 띄울 메세지
-          // 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
-          var iwContent = '<div style="color: #3c763d; padding:7px;">여기 또갈까 ?</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-              iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
-
-          // 인포윈도우를 생성합니다
-          var infowindow = new kakao.maps.InfoWindow({
-              content : iwContent,
-              removable : iwRemoveable
-          });
 
           // 마커에 클릭이벤트를 등록합니다
           kakao.maps.event.addListener(marker, 'click', function() {
 
-              var lat;
-              var lng;
 
-              infowindow.open(map, marker);
-              lat = marker.getPosition().getLat();
-              lng = marker.getPosition().getLng();
-              document.getElementById('latitude').value = lat
-              document.getElementById('longitude').value = lng
-              getLocationName(lat, lng);
           });
           // 마커 클릭 이벤트 끝
           marker.setMap(map); // 지도 위에 마커를 표출합니다
@@ -393,6 +409,12 @@
           infowindow.open(map, marker);
       }
 
+      function addDestiName(marker, title){
+          var destiNameInput = document.getElementById('destiName');
+          marker.setClickable(true);
+          destiNameInput.value = title
+      }
+
       // 검색결과 목록의 자식 Element를 제거하는 함수입니다
       function removeAllChildNods(el) {
           while (el.hasChildNodes()) {
@@ -403,7 +425,7 @@
   </script>
   <form id="writeFrom" class="form-horizontal" th:action="@{/api/boards/write}" method="post">
     <section>
-      <strong> <i class="fa-solid fa-location-dot"></i> 목적지 </strong><input type="text" id="destiName" name="destiName"/><br>
+      <strong> <i class="fa-solid fa-location-dot"></i> 목적지 </strong><input type="text" id="destiName" name="destiName" readonly="readonly"/><br>
     </section>
     <section>
       <strong> <i class="fa-solid fa-signs-post"></i> 지역 : </strong>
@@ -529,7 +551,7 @@
       // 로컬 스토리지에서 userId 가져오기
       const userId = window.localStorage.getItem('userId');
       // userId가 없는 경우
-      if (!userId) {
+      if (!userId && !window.location.href.includes("local")) {
           // 경고창 표시
           alert('로그인 후 이용 가능합니다.');
           // 다른 페이지로 이동
