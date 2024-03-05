@@ -79,7 +79,7 @@ public class BoardController {
     model.addAttribute("board", boardRequest);
 
     int like = likeService.findLike(boardRequest.getId(), boardRequest.getUserId());
-    model.addAttribute("like",like);
+    model.addAttribute("like", like);
     return "boards/detail";
   }
 

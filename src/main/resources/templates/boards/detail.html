@@ -90,72 +90,70 @@
           }
       }
   </style>
-  <script>
-    $(document).ready(function() {
-      if(document.getElementById("like").value === 1){ // 좋아요 있으면
+<script>
+$(document).ready(function() {
+  let like =  [[ ${like} ]];
+  let currentPageUrl = window.location.href;
+  let userId = window.localStorage.getItem('userId');
 
-          document.getElementById('like').classList.remove('fa-regular'); // fa-regular 클래스 제거
-          document.getElementById('like').classList.add('fa-solid'); // fa-solid 클래스 추가
-          console.log("좋아요 O");
-      }else if(document.getElementById("like").value === 0){ // 좋아요 없으면
-          document.getElementById('like').classList.remove('fa-solid'); // fa-solid 클래스 추가
-          document.getElementById('like').classList.add('fa-regular'); // fa-regular 클래스 제거
-          console.log("좋아요 X");
-      }
-    });
+  const likeButton = document.getElementById('like-button');
+  likeButton.addEventListener('click', function() {
 
-    let currentPageUrl = window.location.href;
-    let userId = window.localStorage.getItem('userId');
+    const boardId = document.getElementById('boardId').value;
+    if (!userId) { // userId 이 없으면
+      // 경고창 표시
+      alert('로그인 후 이용 가능합니다.');
+      // 다른 페이지로 이동
+      window.location.href = 'https://www.daddygo.vacations';
+    }
 
-    document.addEventListener("DOMContentLoaded", function() {
-        const likeButton = document.getElementById('like-button');
-        likeButton.addEventListener('click', function() {
+    let confirmMessage = "현재 게시물을 추천하시겠습니까?";
+    if (like) {
+      confirmMessage = "현재 게시물 추천을 취소하시겠습니까?";
+    }
 
-            const likeVal = document.getElementById('like').value;
-            const boardId = document.getElementById('boardId').value;
-            if (!userId) { // userId 이 없으면
-                // 경고창 표시
-                alert('로그인 후 이용 가능합니다.');
-                // 다른 페이지로 이동
-                window.location.href = 'https://www.daddygo.vacations';
-            }
+    if (currentPageUrl.includes('api')) {
+      currentPageUrl = '/api/boards/like';
+    } else {
+      currentPageUrl = '/boards/like';
+    }
 
-            let confirmMessage = "현재 게시물을 추천하시겠습니까?";
-            if (likeVal) {
-                confirmMessage = "현재 게시물 추천을 취소하시겠습니까?";
-            }
+    if (confirm(confirmMessage)) {
+      console.log("토글 버튼 클릭");
 
-            if (currentPageUrl.includes('api')) {
-                currentPageUrl = '/api/boards/like';
-            } else {
-                currentPageUrl = '/boards/like';
-            }
-
-            if (confirm(confirmMessage)) {
-                console.log("토글 버튼 클릭");
-
-                $.ajax({
-                    url: currentPageUrl,
-                    type: 'POST',
-                    data: {'boardId': boardId, 'userId': userId},
-                    success: function (data){
-                        // 1 이면 종아요 +1
-                        // 0 이면 좋아요 -1
-                        alert(data);
-                        location.reload();
-                    }
-                });
-            }
+    $.ajax({
+        url: currentPageUrl,
+        type: 'POST',
+        data: {'boardId': boardId, 'userId': userId },
+        success: function (response){
+            alert(response)
+            // 1 이면 종아요 +1
+            // 0 이면 좋아요 -1
+            location.reload();
+          }
         });
-    });
-  </script>
+    }
+  });
+  function emptyHeart() {
+    document.getElementById('like').classList.remove('fa-solid');
+    document.getElementById('like').classList.add('fa-regular'); // fa-regular 속이빈 하트
+    console.log("좋아요 X");
+  }
+  function fillHeart() {
+    document.getElementById('like').classList.remove('fa-regular'); // fa-regular 클래스 제거
+    document.getElementById('like').classList.add('fa-solid'); // fa-solid 클래스 추가
+    console.log("좋아요 O");
+  }
+
+});
+</script>
 </head>
 <body>
 <div class="container">
   <div class="card">
     <div class="card-body">
       <div class="like-revisit">
-        <button id="like-button" class="btn btn-link"><i id="like" class="fa-heart fa-lg" th:value="${like}"></i></button> <span id="like-count" th:text="${board.likeCount}">></span> | 재방문 횟수: <span id="revisit-count" th:text="${board.revisitCount}"></span>
+        <button id="like-button" class="btn btn-link"><i id="like" class="fa-regular fa-heart fa-lg" th:data-like="${like}"></i></button> <span id="like-count" th:text="${board.likeCount}">></span> | 재방문 횟수: <span id="revisit-count" th:text="${board.revisitCount}"></span>
       </div>
       <h1 class="card-title" th:text="${board.title}"></h1>
       <!-- 글쓴이 닉네임 들어가야함 -->

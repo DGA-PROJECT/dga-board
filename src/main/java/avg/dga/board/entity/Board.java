@@ -69,7 +69,7 @@ public class Board extends Time{
 
   @Column(name = "is_banned")
   @ColumnDefault("false")
-  private Boolean isBanned;
+  private Boolean isBanned = false;
 
   @Builder
   public Board(Long id, String title, String content, String nickname, User user, Area area, Integer likeCount,
