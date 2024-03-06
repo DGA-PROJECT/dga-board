@@ -60,10 +60,15 @@ jobs:
           docker build \
             -f Dockerfile \
             --build-arg PSQL_HOST=${{ secrets.PSQL_HOST }} \
+            --build-arg PSQL_PORT=${{ secrets.PSQL_PORT }} \
             --build-arg PSQL_USERNAME=${{ secrets.PSQL_USERNAME }} \
             --build-arg PSQL_PASSWORD=${{ secrets.PSQL_PASSWORD }} \
             --build-arg BOARD_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY_ID }} \
             --build-arg BOARD_SECRET_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+            --build-arg MONGO_HOST=${{ secrets.MONGO_HOST }} \
+            --build-arg MONGO_PORT=${{ secrets.MONGO_PORT }} \
+            --build-arg MONGO_USERNAME=${{ secrets.MONGO_USERNAME }} \
+            --build-arg MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }} \
             -t ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} .
 
       - name: Docker image Push
