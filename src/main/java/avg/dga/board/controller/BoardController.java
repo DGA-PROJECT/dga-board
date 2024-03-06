@@ -110,6 +110,7 @@ public class BoardController {
   @PostMapping ("/write")
   public String write(BoardRequest boardRequest){
     boardService.saveBoard(boardRequest);
+    log.info("하이");
       return "redirect:/boards/";
   }
 
