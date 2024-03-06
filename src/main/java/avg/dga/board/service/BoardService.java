@@ -66,6 +66,7 @@ public class BoardService {
           board.setRevisitCount( maxRevisitCount + 1);
       } else { // 첫방문이면 1 더해줌
         board.setRevisitCount(1);
+        board.setIsBanned(false);
       }
       boardRepository.save(board);
 

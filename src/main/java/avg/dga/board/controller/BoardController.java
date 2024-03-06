@@ -64,17 +64,14 @@ public class BoardController {
   public String page(@PageableDefault(page=1)Pageable pageable, Model model){
     System.out.println("page = " + pageable.getPageNumber());
     Page<BoardRequest> boardRequests = boardService.paging(pageable);
-    for (BoardRequest boardRequest : boardRequests) {
-      System.out.println("boardRequest = " + boardRequest);
-    }
 
-    model.addAttribute("boardList", boardRequests);
     // 시작페이지(startPage), 마지막페이지(endPage) 값 계산
     // 하단에 보여줄 페이지 갯수 3개
     int blockLimit = 3;
     int startPage = (((int) (Math.ceil((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
-    int endPage = ((startPage + blockLimit - 1) < boardRequests.getTotalPages()) ? startPage + blockLimit - 1 : boardRequests.getTotalPages();
+    int endPage = Math.min((startPage + blockLimit - 1), boardRequests.getTotalPages());
 
+    model.addAttribute("boardList", boardRequests);
     model.addAttribute("startPage",startPage);
     model.addAttribute("endPage",endPage);
 
