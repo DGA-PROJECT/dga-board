@@ -62,7 +62,7 @@ public class BoardController {
   }
 
   @GetMapping("/page")
-  public String page(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable, Model model){
+  public String page(@PageableDefault(page = 1, size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable, Model model){
     System.out.println("page = " + pageable.getPageNumber());
     Page<BoardRequest> boardRequests = boardService.paging(pageable);
 

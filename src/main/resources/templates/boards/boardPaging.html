@@ -105,9 +105,9 @@
     let currentPageUrl = window.location.href;
 
     // 리다이렉션이 NLB 로 되면 강제로 돌아오게 설정 --> 좋은  방법이 아님 개선 필요
-    if(currentPageUrl.includes("dga-nlb")){
-          window.location.href = "https://www.daddygo.vacations/api/boards/";
-    }
+    // if(currentPageUrl.includes("dga-nlb")){
+    //       window.location.href = "https://www.daddygo.vacations/api/boards/";
+    // }
 
     window.onload = function() {
              let pageNumber = [[ ${boardList.pageable.pageNumber} ]];
