@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,7 +62,7 @@ public class BoardController {
   }
 
   @GetMapping("/page")
-  public String page(@PageableDefault(page=1)Pageable pageable, Model model){
+  public String page(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable, Model model){
     System.out.println("page = " + pageable.getPageNumber());
     Page<BoardRequest> boardRequests = boardService.paging(pageable);
 
@@ -110,7 +111,7 @@ public class BoardController {
   @PostMapping ("/write")
   public String write(BoardRequest boardRequest){
     boardService.saveBoard(boardRequest);
-      return "redirect:/boards/";
+      return "redirect:/boards/list";
   }
 
   @PostMapping("/like")
