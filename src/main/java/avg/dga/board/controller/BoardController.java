@@ -62,7 +62,7 @@ public class BoardController {
   }
 
   @GetMapping("/page")
-  public String page(@PageableDefault(page = 1, size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable, Model model){
+  public String page(@PageableDefault(page = 1, sort = "id", direction = Sort.Direction.DESC) Pageable pageable, Model model){
     System.out.println("page = " + pageable.getPageNumber());
     Page<BoardRequest> boardRequests = boardService.paging(pageable);
 
@@ -111,7 +111,7 @@ public class BoardController {
   @PostMapping ("/write")
   public String write(BoardRequest boardRequest){
     boardService.saveBoard(boardRequest);
-      return "redirect:/boards/list";
+      return "redirect:boards/paging";
   }
 
   @PostMapping("/like")

@@ -22,7 +22,7 @@ public class Board extends Time{
   private Long id;
 
   @JoinColumn(name = "user_id", nullable = false)
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.PERSIST)
   private User user ;
 
   @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
