@@ -51,15 +51,15 @@ public class BoardService {
       List<Board> boards = findBoardSameUserWithDestiName(board.getUser(), board.getDestiName());
 
       // then 또간 횟 수가 1 이상이면
-      if(boards.size()>=1){
+      if(!boards.isEmpty()){
           List<Integer> RevisitCountList = new ArrayList<>();
           Integer maxRevisitCount;
           // 첫번째 조회한 revisit 조회수
 
-          for (int i = 0; i < boards.size(); i++) {
-            int current = boards.get(i).getRevisitCount();
-            RevisitCountList.add(current);
-          }
+        for (Board value : boards) {
+          int current = value.getRevisitCount();
+          RevisitCountList.add(current);
+        }
           // 재방문수 가장 큰 숫자를
           maxRevisitCount = Collections.max(RevisitCountList);
           // 가져와서 1 더해줌

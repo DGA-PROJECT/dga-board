@@ -93,10 +93,13 @@ public class BoardController {
   // 게시물 상세정보 조회
   @GetMapping("/{id}")
   public String detail(@PathVariable("id") Long id, Model model) {
+    //조회 하기 위해 id 값 가져오기
     BoardRequest boardRequest = boardService.getBoard(id);
-    model.addAttribute("board", boardRequest);
-
     int like = likeService.findLike(boardRequest.getId(), boardRequest.getUserId());
+
+    //변경 된 값을 가져오기 
+    boardRequest = boardService.getBoard(id);
+    model.addAttribute("board", boardRequest);
     model.addAttribute("like", like);
     return "boards/detail";
   }
@@ -111,7 +114,7 @@ public class BoardController {
   @PostMapping ("/write")
   public String write(BoardRequest boardRequest){
     boardService.saveBoard(boardRequest);
-      return "redirect:boards/paging";
+      return "redirect:/boards/paging";
   }
 
   @PostMapping("/like")
