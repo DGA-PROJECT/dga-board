@@ -2,6 +2,7 @@ package avg.dga.board.controller;
 
 import avg.dga.board.dto.ApiResponseMessage;
 import avg.dga.board.dto.BoardRequest;
+import avg.dga.board.entity.Board;
 import avg.dga.board.service.AwsS3Service;
 import avg.dga.board.service.BoardService;
 import avg.dga.board.service.LikeService;
@@ -98,12 +99,12 @@ public class BoardController {
     int like = likeService.findLike(boardRequest.getId(), boardRequest.getUserId());
 
     //변경 된 값을 가져오기 
-    boardRequest = boardService.getBoard(id);
+    Board board = boardService.getBoard(id).toEntity();
 
-    System.out.println("boardRequest.getLikeCount() = " + boardRequest.getLikeCount());
+    System.out.println("boardRequest.getLikeCount() = " + board.getLikeCount());
     
-    model.addAttribute("board", boardRequest);
-    model.addAttribute("likeCount", boardRequest.getLikeCount());
+    model.addAttribute("board", board);
+    model.addAttribute("likeCount", board.getLikeCount());
     model.addAttribute("like", like);
     return "boards/detail";
   }
