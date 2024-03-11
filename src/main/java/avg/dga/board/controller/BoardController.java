@@ -99,7 +99,11 @@ public class BoardController {
 
     //변경 된 값을 가져오기 
     boardRequest = boardService.getBoard(id);
+
+    System.out.println("boardRequest.getLikeCount() = " + boardRequest.getLikeCount());
+    
     model.addAttribute("board", boardRequest);
+    model.addAttribute("likeCount", boardRequest.getLikeCount());
     model.addAttribute("like", like);
     return "boards/detail";
   }
