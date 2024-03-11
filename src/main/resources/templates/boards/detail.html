@@ -91,12 +91,14 @@
       }
   </style>
 <script>
+
 $(document).ready(function() {
   let like =  [[ ${like} ]];
-  let likeCount = [[ ${likeCount} ]];
+  let likeCount = parseInt(document.getElementById("like-count").innerText);
   console.log("likeCount : " + likeCount );
   let currentPageUrl = window.location.href;
   let userId = window.localStorage.getItem('userId');
+
 
   const likeButton = document.getElementById('like-button');
   likeButton.addEventListener('click', function() {
@@ -134,6 +136,11 @@ $(document).ready(function() {
             // 1 이면 종아요 +1
             // 0 이면 좋아요 -1
             location.reload();
+            if(response===1) {
+                likeCount + 1
+            }else{
+                likeCount - 1
+            }
           }
         });
     }
