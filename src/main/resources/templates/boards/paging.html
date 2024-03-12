@@ -40,122 +40,85 @@
     </tbody>
   </table>
 
-    <!-- 글쓰기 버튼 -->
-    <div class="text-right">
-      <a id="writeBtn" class="btn btn-primary justify-content-end" href="/#" role="button">글쓰기 <i class="fa-solid fa-pen"></i> </a>
-    </div>
+  <!-- 글쓰기 버튼 -->
+  <div class="text-right">
+    <a class="btn btn-primary justify-content-end" th:href="@{/api/boards/write}" role="button">글쓰기<i class="fa-solid fa-pen"></i> </a>
+  </div>
 
-    <!-- 페이징 -->
-    <div  th:if="${!boardList.isEmpty()}">
-      <!-- 전역 변수 선언 -->
-      <div
-          th:with="
+  <!-- 페이징 -->
+  <div  th:if="${!boardList.isEmpty()}">
+    <!-- 전역 변수 선언 -->
+    <div
+        th:with="
                 pageNumber = ${boardList.pageable.pageNumber},
                 pageSize = ${boardList.pageable.pageSize},
                 totalPages = ${boardList.totalPages},
                 startPage = ${startPage},
                 tempEndPage = ${startPage + pageSize - 1},
                 endPage = (${endPage})"
-          aria-label="Page navigation" class="text-center">
-        <ul class="pagination ">
+        aria-label="Page navigation" class="text-center">
+      <ul class="pagination ">
 
-          <!-- 처음으로 이동 -->
-          <li th:classappend="${pageNumber < pageSize} ? 'disabled'" class="page-item">
-            <a class="page-link" th:href="@{/api/boards/page(page=1)}">
-              <span>&laquo;</span>
-              <span class="sr-only">First</span>
-            </a>
-          </li>
+        <!-- 처음으로 이동 -->
+        <li th:classappend="${pageNumber < pageSize} ? 'disabled'" class="page-item">
+          <a class="page-link" th:href="@{/api/boards/page(page=1)}">
+            <span>&laquo;</span>
+            <span class="sr-only">First</span>
+          </a>
+        </li>
 
-          <!-- 이전으로 이동 -->
-          <li th:classappend="${boardList.first} ? 'disabled'" class="page-item">
-            <a class="page-link" th:href="${boardList.first} ? '#' : @{/api/boards/page(page = ${pageNumber})}" aria-label="Previous">
-              <span aria-hidden="true">&lt;</span>
-              <span class="sr-only">Previous</span>
-            </a>
-          </li>
+        <!-- 이전으로 이동 -->
+        <li th:classappend="${boardList.first} ? 'disabled'" class="page-item">
+          <a class="page-link" th:href="${boardList.first} ? '#' : @{/api/boards/page(page = ${pageNumber})}" aria-label="Previous">
+            <span aria-hidden="true">&lt;</span>
+            <span class="sr-only">Previous</span>
+          </a>
+        </li>
 
-          <!-- 특정 페이지로 이동 -->
-          <li th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
-            <a th:text="${page}" class="page-link" th:href="@{/api/boards/page(page = ${page})}"></a>
-          </li>
+        <!-- 특정 페이지로 이동 -->
+        <li th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
+          <a th:text="${page}" class="page-link" th:href="@{/api/boards/page(page = ${page})}"></a>
+        </li>
 
-          <!-- 다음으로 이동 -->
-          <li th:classappend="${boardList.last} ? 'disabled'" class="page-item">
-            <a class="page-link" th:href="${boardList.last} ? '#' : @{/api/boards/page(page = ${pageNumber + 2})}" aria-label="Next">
-              <span aria-hidden="true">&gt;</span>
-              <span class="sr-only">Next</span>
-            </a>
-          </li>
+        <!-- 다음으로 이동 -->
+        <li th:classappend="${boardList.last} ? 'disabled'" class="page-item">
+          <a class="page-link" th:href="${boardList.last} ? '#' : @{/api/boards/page(page = ${pageNumber + 2})}" aria-label="Next">
+            <span aria-hidden="true">&gt;</span>
+            <span class="sr-only">Next</span>
+          </a>
+        </li>
 
-          <!-- 마지막으로 이동 -->
-          <li th:classappend=" ${(totalPages / pageSize) * pageSize - 1 <= startPage} ? 'disabled'" class="page-item">
-            <a class="page-link" th:href="@{/api/boards/page(page = ${totalPages})}">
-              <span>&raquo;</span>
-              <span class="sr-only">Last</span>
-            </a>
-          </li>
+        <!-- 마지막으로 이동 -->
+        <li th:classappend=" ${(totalPages / pageSize) * pageSize - 1 <= startPage} ? 'disabled'" class="page-item">
+          <a class="page-link" th:href="@{/api/boards/page(page = ${totalPages})}">
+            <span>&raquo;</span>
+            <span class="sr-only">Last</span>
+          </a>
+        </li>
 
-        </ul>
-      </div>
-    </div> <!-- /container -->
+      </ul>
+    </div>
+  </div> <!-- /container -->
 
   <script th:inline="javascript">
 
       let currentPageUrl = window.location.href;
 
       //리다이렉션이 NLB 로 되면 강제로 돌아오게 설정 --> 좋은  방법이 아님 개선 필요
-      if (currentPageUrl.includes("dga-nlb")) {
+      if(currentPageUrl.includes("dga-nlb")){
           window.location.href = "https://www.daddygo.vacations/api/boards/page";
       }
 
-      document.addEventListener('DOMContentLoaded', function() {
+      let idToken = localStorage.getItem('idToken');
+      let userId = localStorage.getItem('userId');
 
-          document.getElementById('writeBtn').addEventListener('click', function(event) {
-              const idToken = window.localStorage.getItem("idToken");
-              if (!idToken) {
-                  event.preventDefault(); // 기본 동작 방지
-                  alert("로그인을 먼저 하세요");
-                  return false;
-              }
-
-              fetch("/api/boards/write", {
-                  method: "GET", // 또는 "GET", "PUT" 등 요청 메소드에 맞게 설정
-                  headers: {
-                      "Content-Type": "application/json",
-                      "Authorization": idToken, // 여기서 "eyJraWQiOiJLTzRVMWZ..." 는 획득한 idToken의 값
-                  },
-              })
-                  .then(response => {
-                      if (response.ok) {
-                          return response.json();
-                      }
-                      throw new Error('Network response was not ok.');
-                  })
-                  .then(data => console.log(data))
-                  .catch(error => console.error('There has been a problem with your fetch operation:', error));
-
-          });
-      });
-
-
-
-
-      /*    window.onload = function() {
-                   let pageNumber = [[ ${boardList.pageable.pageNumber} ]];
-                   let pageSize = [[ ${boardList.pageable.pageSize} ]];
-                   let totalPages = [[ ${boardList.totalPages} ]];
-                   let startPage = [[ ${startPage} ]];
-                   let endPage = [[ ${endPage} ]];
-
-                   alert( "pageNumber : " + pageNumber +
-                       "pageSize : " + pageSize +
-                       "totalPages : " + totalPages +
-                       "startPage : " + startPage +
-                       "endPage : " + endPage
-                   );
-          }*/
-
+      // idToken 값이 없으면 글쓰기 버튼을 숨깁니다.
+      if (!idToken&&!userId) {
+          const writeButton = document.querySelector('.btn.btn-primary');
+          if (writeButton) {
+              writeButton.style.display = 'none';
+          }
+      }
   </script>
 
 
