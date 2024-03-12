@@ -42,7 +42,7 @@
 
     <!-- 글쓰기 버튼 -->
     <div class="text-right">
-      <a class="btn btn-primary justify-content-end" th:href="@{/api/boards/write}" role="button">글쓰기 <i class="fa-solid fa-pen"></i> </a>
+      <a class="btn btn-primary justify-content-end" th:href="@{/api/boards/write}" role="button">글쓰기<i class="fa-solid fa-pen"></i> </a>
     </div>
 
     <!-- 페이징 -->
@@ -61,7 +61,7 @@
 
           <!-- 처음으로 이동 -->
           <li th:classappend="${pageNumber < pageSize} ? 'disabled'" class="page-item">
-            <a class="page-link" th:href="@{/boards/page(page=1)}">
+            <a class="page-link" th:href="@{/api/boards/page(page=1)}">
               <span>&laquo;</span>
               <span class="sr-only">First</span>
             </a>
@@ -104,10 +104,10 @@
 
     let currentPageUrl = window.location.href;
 
-    // 리다이렉션이 NLB 로 되면 강제로 돌아오게 설정 --> 좋은  방법이 아님 개선 필요
-    // if(currentPageUrl.includes("dga-nlb")){
-    //       window.location.href = "https://www.daddygo.vacations/api/boards/page";
-    // }
+    //리다이렉션이 NLB 로 되면 강제로 돌아오게 설정 --> 좋은  방법이 아님 개선 필요
+    if(currentPageUrl.includes("dga-nlb")){
+          window.location.href = "https://www.daddygo.vacations/api/boards/page";
+    }
 
 /*    window.onload = function() {
              let pageNumber = [[ ${boardList.pageable.pageNumber} ]];

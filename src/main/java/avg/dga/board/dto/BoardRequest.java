@@ -2,8 +2,6 @@ package avg.dga.board.dto;
 
 import avg.dga.board.entity.*;
 import lombok.*;
-import software.amazon.awssdk.services.s3.endpoints.internal.Value;
-
 
 import java.time.LocalDateTime;
 
@@ -41,6 +39,7 @@ public class BoardRequest extends Time{
         .user(user)
         .destiName(destiName)
         .area(area)
+        .revisitCount(revisitCount)
         .longitude(longitude)
         .latitude(latitude)
         .thumbnailUrl(thumbnailUrl)

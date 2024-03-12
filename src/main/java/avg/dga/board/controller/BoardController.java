@@ -64,7 +64,6 @@ public class BoardController {
 
   @GetMapping("/page")
   public String page(@PageableDefault(page = 1, sort = "id", direction = Sort.Direction.DESC) Pageable pageable, Model model){
-    System.out.println("page = " + pageable.getPageNumber());
     Page<BoardRequest> boardRequests = boardService.paging(pageable);
 
     // 시작페이지(startPage), 마지막페이지(endPage) 값 계산
@@ -99,13 +98,13 @@ public class BoardController {
     int like = likeService.findLike(boardRequest.getId(), boardRequest.getUserId());
 
     //변경 된 값을 가져오기 
-    Board board = boardService.getBoard(id).toEntity();
+    Board board = boardRequest.toEntity();
 
-    System.out.println("boardRequest.getLikeCount() = " + board.getLikeCount());
-    
     model.addAttribute("board", board);
     model.addAttribute("likeCount", board.getLikeCount());
+    model.addAttribute("revisitCount", board.getRevisitCount());
     model.addAttribute("like", like);
+
     return "boards/detail";
   }
 
@@ -119,7 +118,7 @@ public class BoardController {
   @PostMapping ("/write")
   public String write(BoardRequest boardRequest){
     boardService.saveBoard(boardRequest);
-      return "redirect:/boards/paging";
+      return "redirect:page";
   }
 
   @PostMapping("/like")
@@ -144,6 +143,3 @@ public class BoardController {
   }
 
 }
-
-
-
