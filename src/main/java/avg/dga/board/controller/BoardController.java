@@ -101,6 +101,7 @@ public class BoardController {
     Board board = boardRequest.toEntity();
 
     model.addAttribute("board", board);
+    model.addAttribute("nickname", board.getNickname());
     model.addAttribute("likeCount", board.getLikeCount());
     model.addAttribute("revisitCount", board.getRevisitCount());
     model.addAttribute("like", like);
@@ -120,6 +121,12 @@ public class BoardController {
     boardService.saveBoard(boardRequest);
       return "redirect:page";
   }
+
+//  @DeleteMapping("/delete")
+//  public String delete(Long boardId){
+//    boardService.deleteBoard(boardId);
+//    return "redirect:page";
+//  }
 
   @PostMapping("/like")
   public @ResponseBody int like(Long boardId, Long userId){

@@ -138,6 +138,7 @@ public class BoardService {
         .userId(board.getUser().getId())
         .title(board.getTitle())
         .content(board.getContent())
+        .nickname(board.getNickname())
         .destiName(board.getDestiName())
         .destiType(board.getDestiType())
         .travelType(board.getTravelType())
@@ -147,6 +148,11 @@ public class BoardService {
         .longitude(board.getLongitude())
         .createdDate(board.getCreatedTime())
         .build();
+  }
+
+  // 게시글 삭제
+  public void deleteBoard (Long boardId){
+    boardRepository.deleteById(boardId);
   }
 
   private  List<Board> findBoardSameUserWithDestiName(final User user, final String destiName){

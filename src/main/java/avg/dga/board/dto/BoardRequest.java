@@ -37,6 +37,7 @@ public class BoardRequest extends Time{
         .title(title)
         .content(content)
         .user(user)
+        .nickname(nickname)
         .destiName(destiName)
         .area(area)
         .revisitCount(revisitCount)

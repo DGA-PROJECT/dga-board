@@ -92,9 +92,17 @@
   </style>
 <script>
 
-$(document).ready(function() {
-  let like =  [[ ${like} ]];
+document.addEventListener("DOMContentLoaded", function() {
+
+  let like = [[${like}]];
   let likeCount = parseInt(document.getElementById("like-count").innerText);
+
+  //차후 삭제 기능 추가
+  /*  let nickname = [[${nickname}]];
+  let viewer = "클루셉시키" ;/!*window.localStorage.getItem('nickname');*!/
+  if(nickname === viewer){
+      document.getElementById('btnBox').style.display = "show";
+  }*/
 
   let currentPageUrl = window.location.href;
   let userId = window.localStorage.getItem('userId');
@@ -177,14 +185,13 @@ $(document).ready(function() {
     </div>
   </div>
   <input type="number" id="boardId" name="boardId" th:value="${board.id}" hidden="hidden" readonly/>
-  <div class="row mt-3">
-    <form id="delete-form" th:action="@{'/board/' + ${board.id}}" method="post">
-      <div class="col-auto right">
-        <a class="btn btn-info" th:href="@{'/board/edit/' + ${board.id}}" role="button">수정</a>
-        <input type="hidden" name="_method" value="delete" />
-        <button id="delete-btn" type="submit" class="btn btn-danger">삭제</button>
-      </div>
-    </form>
+  <div id="btnBox" class="row row-cols-lg-auto g-3 align-items-center" style="display: none">
+    <div class="row mt-3">
+        <div class="col-auto right">
+          <a class="btn btn-info" th:href="@{'/boards/edit/' + ${board.id}}" role="button">수정</a>
+          <a class="btn btn-danger" th:href="@{'/boards/delete?(id='+${board.id}+')'}">글 삭제</a>
+        </div>
+    </div>
   </div>
 </div>
 </body>
