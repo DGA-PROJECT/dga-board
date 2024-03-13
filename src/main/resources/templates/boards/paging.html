@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <!--font awsome cdn-->
   <script src="https://kit.fontawesome.com/358202279e.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" th:href="@{/assets/css/nav.css}">
   <style>
       @media only screen and (max-width: 600px) {
           table {
@@ -39,11 +40,6 @@
     </tr>
     </tbody>
   </table>
-
-  <!-- 글쓰기 버튼 -->
-  <div class="text-right">
-    <a class="btn btn-primary justify-content-end" th:href="@{/api/boards/write}" role="button">글쓰기<i class="fa-solid fa-pen"></i> </a>
-  </div>
 
   <!-- 페이징 -->
   <div  th:if="${!boardList.isEmpty()}">
@@ -97,6 +93,12 @@
         </li>
 
       </ul>
+
+      <!-- 글쓰기 버튼 -->
+      <div class="text-right">
+        <a class="btn btn-primary justify-content-end" th:href="@{/api/boards/write}" role="button">글쓰기<i class="fa-solid fa-pen"></i> </a>
+      </div>
+
     </div>
   </div> <!-- /container -->
 
@@ -120,8 +122,7 @@
           }
       }
   </script>
-
-
 </div>
+<div th:insert="~{_nav::nav}"></div>
 </body>
 </html>

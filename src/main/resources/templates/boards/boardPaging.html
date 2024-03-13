@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <!--font awsome cdn-->
   <script src="https://kit.fontawesome.com/358202279e.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" th:href="@{/assets/css/nav.css}">
   <style>
       @media only screen and (max-width: 600px) {
           table {
@@ -127,5 +128,6 @@
 
 
 </div>
+<div th:insert="~{_nav::nav}"></div>
 </body>
 </html>

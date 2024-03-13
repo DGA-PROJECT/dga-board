@@ -78,7 +78,7 @@ public class BoardService {
   // 게시글 페이징 처리된 화면 서비스
   public Page<BoardRequest> paging(Pageable pageable){
     int page = pageable.getPageNumber() - 1 ;
-    int pageLimit= 10;
+    int pageLimit= 7;
     Page<Board> boards =
         boardRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC,"id")));
     Page<BoardRequest> boardRequests = boards.map(board -> BoardRequest.builder()

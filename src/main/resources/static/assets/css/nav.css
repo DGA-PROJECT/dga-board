@@ -1,0 +1,66 @@
+.navBot {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    height: 60px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #5aa9e6;
+    border-radius: 40px;
+    padding: 5px;
+    z-index: 3;
+    box-shadow: 10px 10px 10px 10px rgba(0,0,0,.3);
+}
+
+.navBot .active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation-name: active_anime;
+    animation: active_anime .5s forwards;
+    animation-duration: .5s;
+    background-color: #f9f9f9;
+    width: 50%;
+    border-radius: 40px;
+    height: 70px;
+    font-size: 2em;
+    border: #3e92cc 3px solid;
+    color: #0a2463;
+}
+
+.navBot .list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    font-size: 1.5em;
+}
+
+.navBot .list i{
+    color :white;
+}
+
+.navBot .active i {
+    margin-right: 10px;
+    color: #0a2463;
+}
+
+.navBot .active p {
+    margin: 0;
+}
+
+fa-home-alt:before, .fa-home-lg-alt:before, .fa-home:before, .fa-house:before {
+    content: "\f015";
+}
+
+.fa-bars:before, .fa-navicon:before {
+    content: "\f0c9";
+}
+
+.fa-magnifying-glass-plus:before, .fa-search-plus:before {
+    content: "\f00e";
+}
+.fa-solid, .fas {
+    font-weight: 900;
+}

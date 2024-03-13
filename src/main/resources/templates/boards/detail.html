@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <!--font awsome cdn-->
   <script src="https://kit.fontawesome.com/358202279e.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" th:href="@{/assets/css/nav.css}">
   <style>
       body {
           background-color: #f9f9f9;
@@ -69,6 +70,13 @@
           font-size: 16px;
           color: #6c757d;
       }
+      #back-btn{
+          position: absolute;
+          top: 40px;
+          left: 20px;
+          font-size: 16px;
+          color: #6c757d;
+      }
       @media only screen and (max-width: 600px) {
           form {
               font-size: 14px;
@@ -78,6 +86,13 @@
               top: 6px;
               right: 20px;
               font-size: 12px;
+              color: #6c757d;
+          }
+          #back-btn{
+              position: absolute;
+              top: 8px;
+              left: 20px;
+              font-size: 16px;
               color: #6c757d;
           }
           .card-title {
@@ -167,6 +182,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <div class="container">
   <div class="card">
     <div class="card-body">
+      <div id="back-btn">
+        <a href="javascript:void(0);" onclick="history.back();"><i class="fa-solid fa-chevron-left"></i></a>
+      </div>
       <div class="like-revisit">
         <button id="like-button" class="btn btn-link">
           <i id="like" class="fa-regular fa-heart fa-lg" th:data-like="${like}"></i>
@@ -185,6 +203,7 @@ document.addEventListener("DOMContentLoaded", function() {
     </div>
   </div>
   <input type="number" id="boardId" name="boardId" th:value="${board.id}" hidden="hidden" readonly/>
+  <!--none 으로 해놨음 추후 update delete 추가-->
   <div id="btnBox" class="row row-cols-lg-auto g-3 align-items-center" style="display: none">
     <div class="row mt-3">
         <div class="col-auto right">
@@ -194,5 +213,6 @@ document.addEventListener("DOMContentLoaded", function() {
     </div>
   </div>
 </div>
+<div th:insert="~{_nav::nav}"></div>
 </body>
 </html>

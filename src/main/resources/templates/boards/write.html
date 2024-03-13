@@ -22,6 +22,7 @@
   <script src="https://kit.fontawesome.com/358202279e.js" crossorigin="anonymous"></script>
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" th:href="@{/assets/css/nav.css}">
 </head>
 <style>
     @font-face {
@@ -539,13 +540,10 @@
           }
       });
 
-      /*test*/
-      const userId = document.getElementById("userId").value = 2 ;
-      document.getElementById("nickname").value = "클루셉시키";
 
       // 로컬 스토리지에서 userId 가져오기
-      //const userId = window.localStorage.getItem('userId');
-      // userId가 없는 경우
+      const userId = window.localStorage.getItem('userId');
+      //userId가 없는 경우
 
       if (!userId && !window.location.href.includes("local")) {
           // 경고창 표시
@@ -670,5 +668,6 @@
 
   </script>
 </div>
+<div th:insert="~{_nav::nav}"></div>
 </body>
 </html>
