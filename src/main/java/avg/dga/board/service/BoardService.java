@@ -151,9 +151,9 @@ public class BoardService {
   }
 
   // 게시글 삭제
-  public void deleteBoard (Long boardId){
-    boardRepository.deleteById(boardId);
-  }
+//  public void deleteBoard (Long boardId){
+//    boardRepository.deleteById(boardId);
+//  }
 
   private  List<Board> findBoardSameUserWithDestiName(final User user, final String destiName){
     log.info("user =" + user + "destiName" + destiName);

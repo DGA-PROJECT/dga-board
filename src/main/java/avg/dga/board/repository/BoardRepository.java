@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface BoardRepository extends JpaRepository<Board, User> {
@@ -28,4 +27,6 @@ public interface BoardRepository extends JpaRepository<Board, User> {
   void minusLike(@Param("boardId")Long boardId);
 
   Board findById(Long id);
+
+//  void deleteById(Long boardId);
 }

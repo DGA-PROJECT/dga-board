@@ -122,11 +122,11 @@ public class BoardController {
       return "redirect:page";
   }
 
-  @DeleteMapping("/delete")
-  public String delete(Long boardId){
-    boardService.deleteBoard(boardId);
-    return "redirect:page";
-  }
+//  @DeleteMapping("/delete")
+//  public String delete(Long boardId){
+//    boardService.deleteBoard(boardId);
+//    return "redirect:page";
+//  }
 
   @PostMapping("/like")
   public @ResponseBody int like(Long boardId, Long userId){
