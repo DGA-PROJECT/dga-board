@@ -34,7 +34,7 @@
     <tbody>
     <tr  th:each="board: ${boardList}">
       <td class="text-center" th:text="${board.id}"></td>
-      <td><a th:href="@{'/api/boards/'+ ${board.id}}" th:text="${board.title}">제목</a></td>
+      <td><a class="board-link" data-boardid="${board.id}" href="#" th:text="${board.title}">제목</a></td>
       <td class="text-center" th:text="${board.nickname}"></td>
       <td class="text-center" th:text="${#temporals.format(board.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
       <td class="text-center" th:text="${board.likeCount}"></td>
@@ -122,6 +122,26 @@
               writeButton.style.display = 'none';
           }
       }
+
+      document.addEventListener('DOMContentLoaded', (event) => {
+          document.querySelectorAll('.board-link').forEach(item => {
+              item.addEventListener('click', function(e) {
+                  e.preventDefault(); // 기본 행동을 막습니다.
+
+                  let boardId = this.getAttribute('data-boardid'); // data-boardid 값을 가져옵니다.
+                  let userId = parseInt(localStorage.getItem('userId')); // LocalStorage에서 userId 값을 가져옵니다.
+
+                  // userId 값이 있을 경우 해당 값을 URL에 포함하여 페이지로 이동합니다.
+                  // 여기서는 예시로 URL에 userId를 쿼리 문자열로 추가합니다. 실제 구현에 맞게 조정이 필요할 수 있습니다.
+                  if(userId) {
+                      window.location.href = '/api/boards/' + boardId + '?userId=' + userId;
+                  } else {
+                      window.location.href = '/api/boards/' + boardId; // userId가 없으면 기본 URL을 사용합니다.
+                  }
+              });
+          });
+      });
+
   </script>
 </div>
 <div th:insert="~{_nav::nav}"></div>

@@ -92,12 +92,21 @@ public class BoardController {
 
   // 게시물 상세정보 조회
   @GetMapping("/{id}")
-  public String detail(@PathVariable("id") Long id, Model model) {
+  public String detail(@PathVariable("id") Long id,
+                       @RequestParam(value = "userId", required = false) Long userId, // userId를 쿼리 파라미터로 받음
+                       Model model) {
     //조회 하기 위해 id 값 가져오기
     BoardRequest boardRequest = boardService.getBoard(id);
-    int like = likeService.findLike(boardRequest.getId(), boardRequest.getUserId());
 
-    //변경 된 값을 가져오기 
+    int like = 0;
+    // userId가 제공되었는지 확인
+    if (userId != null) {
+      // userId를 사용하여 like 정보 조회
+      like = likeService.findLike(boardRequest.getId(), userId);
+    }
+    System.out.println("like = " + like);
+
+    //변경 된 값을 가져오기
     Board board = boardRequest.toEntity();
 
     model.addAttribute("board", board);
@@ -108,6 +117,7 @@ public class BoardController {
 
     return "boards/detail";
   }
+
 
   // 게시물 작성 페이지 호출
   @GetMapping ("/write")

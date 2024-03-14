@@ -23,7 +23,12 @@ public class LikeService {
 
 
   public int findLike(Long boardId, Long userId){
+
+    System.out.println("boardId  = " + boardId + "userId = " + userId );
+
     Optional<Like> findLike = likeRepository.findByBoard_IdAndUser_Id(boardId, userId);
+
+    System.out.println("findLike = " + findLike);
 
     if(findLike.isEmpty()){
       return 0;
@@ -34,9 +39,10 @@ public class LikeService {
   @Transactional
   public int saveLike(Long boardId, Long userId){
     Optional<Like> findLike = likeRepository.findByBoard_IdAndUser_Id(boardId, userId);
-    System.out.println("findLike.isEmpty() = " + findLike.isEmpty());
 
     if (findLike.isEmpty()){
+      System.out.println("추천");
+
       User user = userRepository.findById(userId).get();
       Board board = boardRepository.findById(boardId);
 
@@ -44,9 +50,10 @@ public class LikeService {
 
       likeRepository.save(like);
       boardRepository.plusLike(boardId);
-
       return 1;
     } else {
+      System.out.println("추천 취소");
+
       likeRepository.deleteByBoard_IdAndUser_Id(boardId, userId);
       boardRepository.minusLike(boardId);
       return 0;

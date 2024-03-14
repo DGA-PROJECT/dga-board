@@ -111,11 +111,11 @@ document.addEventListener("DOMContentLoaded", function() {
   let likeCount = parseInt(document.getElementById("like-count").innerText);
 
   //차후 삭제 기능 추가
-  /*  let nickname = [[${nickname}]];
-  let viewer = "클루셉시키" ;/!*window.localStorage.getItem('nickname');*!/
-  if(nickname === viewer){
-      document.getElementById('btnBox').style.display = "show";
-  }*/
+  // let nickname = [[${nickname}]];
+  // let viewer = "클루셉시키" ;/*window.localStorage.getItem('nickname');*/
+  // if(nickname === viewer){
+  //     document.getElementById('btnBox').style.display = "show";
+  // }
 
   let currentPageUrl = window.location.href;
   let userId = window.localStorage.getItem('userId');
@@ -156,8 +156,10 @@ document.addEventListener("DOMContentLoaded", function() {
             location.reload();
             if(response===1) {
                 likeCount + 1
+                likeChk = true
             }else{
                 likeCount - 1
+                likeChk = false;
             }
           }
         });
