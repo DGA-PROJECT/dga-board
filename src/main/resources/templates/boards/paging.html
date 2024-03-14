@@ -128,7 +128,7 @@
               item.addEventListener('click', function(e) {
                   e.preventDefault(); // 기본 행동을 막습니다.
 
-                  let boardId = this.getAttribute('data-boardid'); // data-boardid 값을 가져옵니다.
+                  let boardId = parseInt(this.getAttribute('data-boardid')); // data-boardid 값을 가져옵니다.
                   let userId = parseInt(localStorage.getItem('userId')); // LocalStorage에서 userId 값을 가져옵니다.
 
                   // userId 값이 있을 경우 해당 값을 URL에 포함하여 페이지로 이동합니다.
