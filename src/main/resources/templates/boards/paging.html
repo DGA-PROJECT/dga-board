@@ -34,7 +34,7 @@
     <tbody>
     <tr  th:each="board: ${boardList}">
       <td class="text-center" th:text="${board.id}"></td>
-      <td><a class="board-link" data-boardid="${board.id}" href="#" th:text="${board.title}">제목</a></td>
+      <td><a class="board-link" th:data-boardid="${board.id}" href="#" th:text="${board.title}">제목</a></td>
       <td class="text-center" th:text="${board.nickname}"></td>
       <td class="text-center" th:text="${#temporals.format(board.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
       <td class="text-center" th:text="${board.likeCount}"></td>
@@ -76,7 +76,6 @@
         <li th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
           <a th:text="${page}" class="page-link" th:href="@{/api/boards/page(page = ${page})}"></a>
         </li>
-
         <!-- 다음으로 이동 -->
         <li th:classappend="${boardList.last} ? 'disabled'" class="page-item">
           <a class="page-link" th:href="${boardList.last} ? '#' : @{/api/boards/page(page = ${pageNumber + 2})}" aria-label="Next">
@@ -128,7 +127,8 @@
               item.addEventListener('click', function(e) {
                   e.preventDefault(); // 기본 행동을 막습니다.
 
-                  let boardId = parseInt(this.getAttribute('data-boardid')); // data-boardid 값을 가져옵니다.
+                  let boardId = parseInt(this.getAttribute('data-boardid')
+                  ); // data-boardid 값을 가져옵니다.
                   let userId = parseInt(localStorage.getItem('userId')); // LocalStorage에서 userId 값을 가져옵니다.
 
                   // userId 값이 있을 경우 해당 값을 URL에 포함하여 페이지로 이동합니다.
