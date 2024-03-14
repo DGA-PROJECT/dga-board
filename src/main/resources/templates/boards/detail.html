@@ -133,24 +133,17 @@ document.addEventListener("DOMContentLoaded", function() {
       return;
     }
 
-    let confirmMessage = "현재 게시물을 추천하시겠습니까?";
-    if (like) {
-      confirmMessage = "현재 게시물 추천을 취소하시겠습니까?";
-    }
-
     if (currentPageUrl.includes('api')) {
       currentPageUrl = '/api/boards/like';
     } else {
       currentPageUrl = '/boards/like';
     }
 
-    if (confirm(confirmMessage)) {
     $.ajax({
         url: currentPageUrl,
         type: 'POST',
         data: {'boardId': boardId, 'userId': userId },
         success: function (response){
-            alert(response)
             // 1 이면 종아요 +1
             // 0 이면 좋아요 -1
             location.reload();
@@ -163,7 +156,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
           }
         });
-    }
   });
   function emptyHeart() {
     document.getElementById('like').classList.remove('fa-solid');
