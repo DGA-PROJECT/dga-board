@@ -43,10 +43,10 @@ public class BoardController {
   // 페이징 처리로 받기
   @GetMapping("/")
   public String paging(@PageableDefault(page = 1)Pageable pageable, Model model) {
-    System.out.println("page = " + pageable.getPageNumber());
+    log.info("page = " + pageable.getPageNumber());
     Page<BoardRequest> boardRequests = boardService.paging(pageable);
     for (BoardRequest boardRequest : boardRequests) {
-      System.out.println("boardRequest = " + boardRequest);
+      log.info("boardRequest = " + boardRequest);
     }
 
     model.addAttribute("boardList", boardRequests);
@@ -104,7 +104,6 @@ public class BoardController {
       // userId를 사용하여 like 정보 조회
       like = likeService.findLike(boardRequest.getId(), userId);
     }
-    System.out.println("like = " + like);
 
     //변경 된 값을 가져오기
     Board board = boardRequest.toEntity();
@@ -154,7 +153,7 @@ public class BoardController {
       return new ResponseEntity<ApiResponseMessage>(message, HttpStatus.BAD_REQUEST);
     }
     ApiResponseMessage message = new ApiResponseMessage("Success", imgUrl, "", "");
-    System.out.println("message = " + message)
+    log.info("message = " + message)
     ;
     return new ResponseEntity<ApiResponseMessage>(message, HttpStatus.OK);
   }

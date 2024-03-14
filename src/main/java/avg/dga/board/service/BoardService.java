@@ -41,7 +41,7 @@ public class BoardService {
       String content = board.getContent();
       String thumnailUrl = getImageUrl(content);
 
-      System.out.println("thumnailUrl = " + thumnailUrl);
+      log.info("thumnailUrl = " + thumnailUrl);
 
       board.setThumbnailUrl(thumnailUrl);
 
